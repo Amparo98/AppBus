@@ -7,8 +7,8 @@ CREATE EXTENSION IF NOT EXISTS postgis;
 CREATE TABLE empresa (
     id_empresa UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     nombre VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE check (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-    telefono VARCHAR(20) NOT NULL check (telefono ~ '^\+?[0-9]{7,15}$'),
+    email VARCHAR(255) NOT NULL UNIQUE CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    telefono VARCHAR(20) CHECK (telefono ~ '^\+?[0-9]{7,15}$'),
     password_hash TEXT NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -18,13 +18,15 @@ CREATE TABLE conductor (
     id_conductor UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     empresa_id UUID NOT NULL REFERENCES empresa(id_empresa) ON DELETE CASCADE,
     nombre VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE check (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-    dni VARCHAR(20) NOT NULL UNIQUE check (dni ~* '^[0-9]{8}[A-Za-z]$'),
-    telefono VARCHAR(20) check (telefono ~ '^\+?[0-9]{7,15}$'),
-    num_trabajador VARCHAR(20) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    dni VARCHAR(20) NOT NULL UNIQUE CHECK (dni ~* '^[0-9]{8}[A-Za-z]$'),
+    telefono VARCHAR(20) CHECK (telefono ~ '^\+?[0-9]{7,15}$'),
+    num_trabajador VARCHAR(20) NOT NULL,
     password_hash TEXT NOT NULL,
     activo BOOLEAN DEFAULT TRUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (empresa_id, email),
+    UNIQUE (empresa_id, num_trabajador) 
 );
 
 /*Tabla Bus*/
@@ -37,14 +39,22 @@ CREATE TABLE bus (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+/*Tabla Posicion_Bus*/
+CREATE TABLE posicion_bus (
+    id_posicion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    bus_id UUID NOT NULL REFERENCES bus(id_bus) ON DELETE CASCADE,
+    ubicacion GEOGRAPHY(POINT, 4326) NOT NULL,
+    fecha TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 /*Tabla Linea*/
 CREATE TABLE linea (
     id_linea UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     empresa_id UUID NOT NULL REFERENCES empresa(id_empresa) ON DELETE CASCADE,
     nombre VARCHAR(255) NOT NULL,
     color VARCHAR(7) CHECK (color ~ '^#[A-Fa-f0-9]{6}$'),
-    codigo VARCHAR(20) NOT NULL UNIQUE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    codigo VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     UNIQUE (empresa_id, codigo)
 );
 
@@ -66,6 +76,20 @@ CREATE TABLE registro_fichaje(
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CHECK (fin_jornada IS NULL OR fin_jornada >= inicio_jornada)
 );
+
+/*Tabla Trayecto*/
+CREATE TABLE trayecto (
+    id_trayecto UUID PRIMARY KEY DEFAULT gen_random_uuid(), 
+    linea_id UUID NOT NULL REFERENCES linea(id_linea) ON DELETE CASCADE,
+    origen VARCHAR(255) NOT NULL,
+    destino VARCHAR(255) NOT NULL,
+    duracion_estimada INTERVAL,
+    activo BOOLEAN DEFAULT TRUE,
+    sentido VARCHAR(20) NOT NULL CHECK (sentido IN ('ida', 'vuelta')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (linea_id, sentido)
+);
+
 CREATE TABLE asignar_servicio(
     id_asignacion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     conductor_id UUID NOT NULL REFERENCES conductor(id_conductor) ON DELETE CASCADE,
@@ -79,11 +103,67 @@ CREATE TABLE asignar_servicio(
 CREATE TABLE incidencia(
     id_incidencia UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     conductor_id UUID NOT NULL REFERENCES conductor(id_conductor) ON DELETE CASCADE,
-    bus_id UUID NOT NULL REFERENCES bus(id_bus) ON DELETE CASCADE,
-    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    bus_id UUID NOT NULL REFERENCES bus(id_bus) ON DELETE SET NULL,
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE SET NULL,
     tipo_incidencia VARCHAR(255) NOT NULL CHECK (tipo_incidencia IN ('averia', 'pasajero', 'emergencia', 'otra')),
     descripcion TEXT,
     estado VARCHAR(20) NOT NULL DEFAULT 'abierta' CHECK (estado IN ('abierta', 'en_proceso', 'cerrada')),
     resuelta_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+/*Tabla Trayecto_Parada*/
+CREATE TABLE trayecto_parada (
+    id_trayecto_parada UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    parada_id UUID NOT NULL REFERENCES parada(id_parada) ON DELETE CASCADE,
+    orden INTEGER NOT NULL CHECK (orden > 0),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (trayecto_id, parada_id),
+    UNIQUE (trayecto_id, orden)
+);
+
+/*Tabla Horario*/
+CREATE TABLE horario (
+    id_horario UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    parada_id UUID NOT NULL REFERENCES parada(id_parada) ON DELETE CASCADE,
+    hora_llegada TIME NOT NULL,
+    hora_salida TIME NOT NULL CHECK (hora_salida >= hora_llegada),
+    tipo_dia VARCHAR(10) NOT NULL CHECK (tipo_dia IN ('L-V', 'sabado', 'domingo', 'festivo')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (trayecto_id, parada_id, hora_llegada, tipo_dia)
+);
+
+/*Tabla Usuario*/
+CREATE TABLE usuario (
+    id_usuario UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    nombre VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE CHECK (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
+    password_hash TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+/*Tabla Favoritos*/
+CREATE TABLE favorito (
+    id_favorito UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    usuario_id UUID NOT NULL REFERENCES usuario(id_usuario) ON DELETE CASCADE,
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    parada_id UUID NOT NULL REFERENCES parada(id_parada) ON DELETE CASCADE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    UNIQUE (usuario_id, trayecto_id, parada_id)
+);  
+
+/* Tabla Aviso_Servicio */
+CREATE TABLE aviso_servicio (
+    id_aviso UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    tipo_aviso VARCHAR(20) NOT NULL CHECK (tipo_aviso IN ('obras', 'desvio', 'retraso', 'suspension', 'otra')),
+    titulo VARCHAR(255) NOT NULL,
+    descripcion TEXT NOT NULL,
+    fecha_inicio TIMESTAMP WITH TIME ZONE NOT NULL,
+    fecha_fin TIMESTAMP WITH TIME ZONE,
+    activo BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
 );
