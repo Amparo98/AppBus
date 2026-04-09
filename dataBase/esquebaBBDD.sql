@@ -56,3 +56,34 @@ CREATE TABLE parada (
     ubicacion GEOGRAPHY(POINT, 4326) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+/*Tabla relacionadas con Conductor*/
+CREATE TABLE registro_fichaje(
+    id_fichaje UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    conductor_id UUID NOT NULL REFERENCES conductor(id_conductor) ON DELETE CASCADE,
+    inicio_jornada TIMESTAMP WITH TIME ZONE NOT NULL,
+    fin_jornada TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    CHECK (fin_jornada IS NULL OR fin_jornada >= inicio_jornada)
+);
+CREATE TABLE asignar_servicio(
+    id_asignacion UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    conductor_id UUID NOT NULL REFERENCES conductor(id_conductor) ON DELETE CASCADE,
+    bus_id UUID NOT NULL REFERENCES bus(id_bus) ON DELETE CASCADE,
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    fecha_inicio TIMESTAMP WITH TIME ZONE NOT NULL,
+    fecha_fin TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
+);
+CREATE TABLE incidencia(
+    id_incidencia UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    conductor_id UUID NOT NULL REFERENCES conductor(id_conductor) ON DELETE CASCADE,
+    bus_id UUID NOT NULL REFERENCES bus(id_bus) ON DELETE CASCADE,
+    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
+    tipo_incidencia VARCHAR(255) NOT NULL CHECK (tipo_incidencia IN ('averia', 'pasajero', 'emergencia', 'otra')),
+    descripcion TEXT,
+    estado VARCHAR(20) NOT NULL DEFAULT 'abierta' CHECK (estado IN ('abierta', 'en_proceso', 'cerrada')),
+    resuelta_at TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
