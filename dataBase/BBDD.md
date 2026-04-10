@@ -126,3 +126,11 @@ Por último, la entidad Favorito se ha diseñado alrededor de la combinación tr
 ## Conclusión
 
 El modelo de base de datos propuesto permite representar de forma consistente los elementos principales del sistema APPBUS y sus relaciones. La elección de PostgreSQL con PostGIS garantiza un soporte robusto para los datos geográficos del sistema, mientras que el diseño relacional proporciona una estructura sólida para el desarrollo posterior del backend, el seguimiento en tiempo real de los autobuses y la interacción de usuarios, conductores y empresas dentro de la plataforma.
+
+# Conexion
+- localhost
+- User name = postgres
+- Database name = appBus
+- Connection Name = appBus
+- puerto 5418
+
