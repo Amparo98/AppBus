@@ -167,3 +167,48 @@ CREATE TABLE aviso_servicio (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
 );
+
+/* indices para optimizar consultas */
+/*CREATE INDEX idx_posicion_bus_fecha ON posicion_bus(fecha);
+CREATE INDEX idx_asignar_servicio_fecha_inicio ON asignar_servicio(fecha_inicio);
+CREATE INDEX idx_asignar_servicio_fecha_fin ON asignar_servicio(fecha_fin);
+CREATE INDEX idx_incidencia_estado ON incidencia(estado);
+CREATE INDEX idx_incidencia_tipo ON incidencia(tipo_incidencia);
+CREATE INDEX idx_incidencia_resuelta_at ON incidencia(resuelta_at);
+CREATE INDEX idx_aviso_servicio_fecha_inicio ON aviso_servicio(fecha_inicio);
+CREATE INDEX idx_aviso_servicio_fecha_fin ON aviso_servicio(fecha_fin);
+
+CREATE INDEX idx_parada_ubicacion ON parada USING GIST (ubicacion);
+CREATE INDEX idx_posicion_bus_ubicacion ON posicion_bus USING GIST (ubicacion);
+CREATE INDEX idx_conductor_empresa_id ON conductor (empresa_id);
+CREATE INDEX idx_bus_empresa_id ON bus (empresa_id);
+CREATE INDEX idx_linea_empresa_id ON linea (empresa_id);
+CREATE INDEX idx_trayecto_linea_id ON trayecto (linea_id);
+CREATE INDEX idx_trayecto_parada_trayecto_id ON trayecto_parada (trayecto_id);
+CREATE INDEX idx_trayecto_parada_parada_id ON trayecto_parada (parada_id);
+CREATE INDEX idx_horario_trayecto_id ON horario (trayecto_id);
+CREATE INDEX idx_horario_parada_id ON horario (parada_id);
+CREATE INDEX idx_posicion_bus_bus_id ON posicion_bus (bus_id);
+CREATE INDEX idx_registro_fichaje_conductor_id ON registro_fichaje (conductor_id);
+CREATE INDEX idx_asignar_servicio_conductor_id ON asignar_servicio (conductor_id);
+CREATE INDEX idx_asignar_servicio_bus_id ON asignar_servicio (bus_id);
+CREATE INDEX idx_asignar_servicio_trayecto_id ON asignar_servicio (trayecto_id);
+CREATE INDEX idx_incidencia_conductor_id ON incidencia (conductor_id);
+CREATE INDEX idx_incidencia_bus_id ON incidencia (bus_id);
+CREATE INDEX idx_incidencia_trayecto_id ON incidencia (trayecto_id);
+CREATE INDEX idx_favorito_usuario_id ON favorito (usuario_id);
+CREATE INDEX idx_favorito_trayecto_id ON favorito (trayecto_id);
+CREATE INDEX idx_favorito_parada_id ON favorito (parada_id);
+CREATE INDEX idx_aviso_servicio_trayecto_id ON aviso_servicio (trayecto_id);
+CREATE INDEX idx_bus_en_servicio ON bus (en_servicio);
+CREATE INDEX idx_incidencia_estado ON incidencia (estado);
+CREATE INDEX idx_aviso_servicio_activo ON aviso_servicio (activo);
+CREATE INDEX idx_parada_ubicacion ON parada USING GIST (ubicacion);
+CREATE INDEX idx_posicion_bus_ubicacion ON posicion_bus USING GIST (ubicacion);
+CREATE INDEX idx_posicion_bus_bus_id ON posicion_bus (bus_id);
+CREATE INDEX idx_linea_empresa_id ON linea (empresa_id);
+CREATE INDEX idx_trayecto_linea_id ON trayecto (linea_id);
+CREATE INDEX idx_horario_trayecto_id ON horario (trayecto_id);
+CREATE INDEX idx_favorito_usuario_id ON favorito (usuario_id);
+CREATE INDEX idx_aviso_servicio_trayecto_id ON aviso_servicio (trayecto_id);
+CREATE INDEX idx_incidencia_estado ON incidencia (estado);*/
