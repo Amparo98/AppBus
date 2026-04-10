@@ -99,14 +99,16 @@ CREATE TABLE asignar_servicio(
     trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE CASCADE,
     fecha_inicio TIMESTAMP WITH TIME ZONE NOT NULL,
     fecha_fin TIMESTAMP WITH TIME ZONE,
+    estado VARCHAR(20) NOT NULL DEFAULT 'asignada' CHECK (estado IN ('asignada', 'en_curso', 'finalizada', 'cancelada')),
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     CHECK (fecha_fin IS NULL OR fecha_fin >= fecha_inicio)
 );
+
 CREATE TABLE incidencia(
     id_incidencia UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     conductor_id UUID NOT NULL REFERENCES conductor(id_conductor) ON DELETE CASCADE,
-    bus_id UUID NOT NULL REFERENCES bus(id_bus) ON DELETE SET NULL,
-    trayecto_id UUID NOT NULL REFERENCES trayecto(id_trayecto) ON DELETE SET NULL,
+    bus_id UUID REFERENCES bus(id_bus) ON DELETE SET NULL,
+    trayecto_id UUID REFERENCES trayecto(id_trayecto) ON DELETE SET NULL,
     tipo_incidencia VARCHAR(255) NOT NULL CHECK (tipo_incidencia IN ('averia', 'pasajero', 'emergencia', 'otra')),
     descripcion TEXT,
     estado VARCHAR(20) NOT NULL DEFAULT 'abierta' CHECK (estado IN ('abierta', 'en_proceso', 'cerrada')),
