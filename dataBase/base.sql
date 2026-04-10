@@ -1,3 +1,5 @@
+/*table.sql: Esquema de la base de datos para el proyecto de gestión de empresas y sus ubicaciones geográficas.*/
+
 /*Esquema de la base de datos para el proyecto de gestión de empresas y sus ubicaciones geográficas.*/
 /*Se utilizan las extensiones pgcrypto para generar UUIDs y postgis para manejar datos geoespaciales.*/
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
