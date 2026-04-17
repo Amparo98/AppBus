@@ -43,3 +43,192 @@ Porque:
 ❌ No tienes frontend web en el servidor
 ❌ Solo trabajas con JSON
 ❌ Añade dependencias innecesarias (y vulnerabilidades)
+
+
+En ese repo, el hash de la contraseña no se hace en la ruta de login, sino en el modelo User, en un middleware pre("save"). Y la comprobación se hace con comparePassword. Después, en /users/signin, si la contraseña coincide, se llama a jwt.sign(...) y devuelve el token
+
+routes → define la URL
+controller → recibe la petición
+service → lógica de login
+repository → consulta SQL
+
+
+
+Sistema de Autenticación con JWT – Resumen Técnico
+
+Para garantizar el acceso seguro al backend se ha implementado un sistema de autenticación basado en email, contraseña y JSON Web Token (JWT). Este mecanismo permite identificar usuarios y proteger rutas privadas sin necesidad de mantener sesiones en el servidor.
+
+1. Proceso de Login
+
+El usuario (empresa, conductor o usuario final) introduce:
+
+email
+contraseña
+
+El frontend envía una petición al backend:
+
+POST /api/auth/login
+
+con un body similar a:
+
+{
+  "email": "usuario@test.com",
+  "password": "123456"
+}
+2. Validación de Credenciales
+
+Cuando el backend recibe la petición:
+
+2.1 Verifica campos obligatorios
+
+Se comprueba que:
+
+exista email
+exista contraseña
+
+Si faltan datos:
+
+{
+  "ok": false,
+  "message": "Email y contraseña son obligatorios"
+}
+2.2 Búsqueda del usuario en base de datos
+
+Se realiza una consulta SQL sobre la tabla correspondiente (usuario, empresa o conductor) utilizando el email recibido.
+
+Ejemplo:
+
+SELECT id_usuario, nombre, email, password_hash
+FROM usuario
+WHERE email = $1
+LIMIT 1;
+2.3 Verificación de contraseña
+
+Las contraseñas no se almacenan en texto plano.
+En la base de datos se guarda un hash bcrypt.
+
+El backend compara:
+
+contraseña enviada por el usuario
+hash almacenado en BD
+
+Mediante:
+
+bcrypt.compare(password, password_hash)
+
+Si no coincide:
+
+{
+  "ok": false,
+  "message": "Credenciales inválidas"
+}
+3. Generación del Token JWT
+
+Si el email existe y la contraseña es correcta, el backend genera un token JWT.
+
+Ejemplo:
+
+jwt.sign(
+  {
+    id: usuario.id_usuario,
+    role: "usuario"
+  },
+  JWT_SECRET,
+  { expiresIn: "7d" }
+)
+
+El token contiene información mínima:
+
+identificador del usuario
+rol del usuario
+fecha de emisión
+fecha de expiración
+4. Respuesta del Login
+
+Si todo es correcto, el backend responde:
+
+{
+  "ok": true,
+  "message": "Login correcto",
+  "token": "eyJhbGciOiJIUzI1NiIs...",
+  "user": {
+    "id": "uuid",
+    "nombre": "Roberto",
+    "email": "usuario@test.com",
+    "role": "usuario"
+  }
+}
+5. Uso del Token
+
+Una vez autenticado, el frontend guarda el token y lo envía en futuras peticiones protegidas mediante cabecera HTTP:
+
+Authorization: Bearer TOKEN
+6. Middleware de Autenticación JWT
+
+Para proteger rutas privadas se implementa un middleware que:
+
+Lee el token recibido
+Verifica su firma
+Comprueba expiración
+Extrae los datos del usuario
+
+Ejemplo:
+
+req.user = decodedToken;
+
+Si el token no existe o es inválido:
+
+{
+  "ok": false,
+  "message": "Token inválido o expirado"
+}
+7. Rutas Protegidas
+
+Gracias al middleware JWT, ciertas rutas solo pueden ser utilizadas por usuarios autenticados.
+
+Ejemplo:
+
+GET /api/auth/me
+
+Respuesta:
+
+{
+  "ok": true,
+  "user": {
+    "id": "...",
+    "role": "usuario"
+  }
+}
+8. Ventajas del sistema JWT
+Seguridad
+No se almacena contraseña en texto plano
+Token firmado digitalmente
+Expiración automática
+Escalabilidad
+No requiere sesiones en servidor
+Fácil integración con móvil y web
+Flexibilidad
+
+Permite controlar permisos según rol:
+
+empresa
+conductor
+usuario
+9. Aplicación en el proyecto
+
+Este sistema permite que:
+
+Usuario final
+consulte favoritos
+acceda a información personalizada
+Empresa
+gestione líneas
+cree conductores
+supervise incidencias
+Conductor
+inicie servicio
+envíe posición GPS
+reporte incidencias
+10. Conclusión
+
+La autenticación mediante JWT proporciona una solución moderna, segura y escalable para el backend del sistema de transporte urbano, permitiendo proteger recursos sensibles y diferenciar funcionalidades según el tipo de usuario autenticado.

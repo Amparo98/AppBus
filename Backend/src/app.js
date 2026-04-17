@@ -3,7 +3,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const indexRouter = require('../routes/index');
+const authRoutes = require('./routes/auth');
 
 const app = express();
 
@@ -12,7 +12,14 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api', indexRouter);
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    ok: true,
+    message: 'Backend funcionando correctamente'
+  });
+});
+
+app.use('/api/auth', authRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
@@ -23,7 +30,6 @@ app.use((req, res) => {
 
 app.use((err, req, res, next) => {
   console.error(err);
-
   res.status(err.status || 500).json({
     ok: false,
     message: err.message || 'Error interno del servidor'
