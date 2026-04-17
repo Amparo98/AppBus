@@ -232,3 +232,9 @@ reporte incidencias
 10. Conclusión
 
 La autenticación mediante JWT proporciona una solución moderna, segura y escalable para el backend del sistema de transporte urbano, permitiendo proteger recursos sensibles y diferenciar funcionalidades según el tipo de usuario autenticado.
+
+
+----
+middlewares -> Sirve para guardar funciones reutilizables de control transversal.
+
+La carpeta middlewares centraliza funciones intermedias reutilizables ejecutadas antes del controlador principal. Permite separar responsabilidades como autenticación, autorización y validación, evitando duplicación de código y mejorando la mantenibilidad del backend.
