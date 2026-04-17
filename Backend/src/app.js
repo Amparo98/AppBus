@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const authRoutes = require('./routes/auth');
+const errorMiddleware = require('./middlewares/error');
 
 const app = express();
 
@@ -28,12 +29,6 @@ app.use((req, res) => {
   });
 });
 
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(err.status || 500).json({
-    ok: false,
-    message: err.message || 'Error interno del servidor'
-  });
-});
+app.use(errorMiddleware);
 
 module.exports = app;

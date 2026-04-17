@@ -10,18 +10,13 @@ function generateToken(payload) {
 }
 
 async function loginUsuario(email, password) {
-  if (!email || !password) {
-    const error = new Error('Email y contraseña son obligatorios');
-    error.status = 400;
-    throw error;
-  }
-
   const emailNormalized = email.trim().toLowerCase();
   const usuario = await authRepository.getUsuarioByEmail(emailNormalized);
 
   if (!usuario) {
     const error = new Error('Credenciales inválidas');
     error.status = 401;
+    error.code = 'INVALID_CREDENTIALS';  
     throw error;
   }
 
@@ -30,6 +25,7 @@ async function loginUsuario(email, password) {
   if (!isValidPassword) {
     const error = new Error('Credenciales inválidas');
     error.status = 401;
+    error.code = 'INVALID_CREDENTIALS'; 
     throw error;
   }
 
@@ -50,11 +46,6 @@ async function loginUsuario(email, password) {
 }
 
 async function loginEmpresa(email, password) {
-  if (!email || !password) {
-    const error = new Error('Email y contraseña son obligatorios');
-    error.status = 400;
-    throw error;
-  }
 
   const emailNormalized = email.trim().toLowerCase();
   const empresa = await authRepository.getEmpresaByEmail(emailNormalized);
@@ -62,6 +53,7 @@ async function loginEmpresa(email, password) {
   if (!empresa) {
     const error = new Error('Credenciales inválidas');
     error.status = 401;
+    error.code = 'INVALID_CREDENTIALS';  
     throw error;
   }
 
@@ -70,6 +62,7 @@ async function loginEmpresa(email, password) {
   if (!isValidPassword) {
     const error = new Error('Credenciales inválidas');
     error.status = 401;
+    error.code = 'INVALID_CREDENTIALS'; 
     throw error;
   }
 
@@ -99,8 +92,9 @@ async function registerUsuario(data) {
     throw error;
   }
 
-  const nombreNormalized = nombre.trim().toLowerCase();
+  const nombreNormalized = nombre.trim();
   const emailNormalized = email.trim().toLowerCase();
+
   const exists = await authRepository.existsUsuarioByEmail(emailNormalized);
   if (exists) {
     const error = new Error('El email ya está registrado');
@@ -126,7 +120,7 @@ async function registerEmpresa(data) {
     throw error;
   }
 
-  const nombreNormalized = nombre.trim().toLowerCase();
+  const nombreNormalized = nombre.trim();
   const emailNormalized = email.trim().toLowerCase();
   const exists = await authRepository.existsEmpresaByEmail(emailNormalized);
 

@@ -55,31 +55,31 @@ async function me(req, res) {
 
 // Registro de usuario
 async function registerUsuario(req, res, next) { 
-    try {
-        const result = await authService.registerUsuario(req.body);
+  try {
+      const result = await authService.registerUsuario(req.body);
 
-        return res.status(201).json({
-        ok: true,
-        message: 'Usuario creado correctamente',
-        user: result
-        });
-    } catch (error) {
-        next(error);
-    }
+      return res.status(201).json({
+      ok: true,
+      message: 'Usuario creado correctamente',
+      user: result
+      });
+  } catch (error) {
+      next(error);
+  }
 }
 
 async function registerEmpresa(req, res, next) { 
-    try {
-        const result = await authService.registerEmpresa(req.body);
+  try {
+      const result = await authService.registerEmpresa(req.body);
 
-        return res.status(201).json({
-            ok: true,
-            message: 'Empresa creada correctamente',
-            empresa: result
-        });
-    } catch (error) {
-        next(error);
-    }
+      return res.status(201).json({
+          ok: true,
+          message: 'Empresa creada correctamente',
+          empresa: result
+      });
+  } catch (error) {
+      next(error);
+  }
 }
 
 module.exports = {
