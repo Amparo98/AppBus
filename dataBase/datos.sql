@@ -44,3 +44,9 @@ WHERE email = 'usuario@prueba.com';
 UPDATE empresa
 SET password_hash = '$2b$10$v6vyLQFT3pNu.4h9OX1oIOHmQWdy.oFC8NaerqPFbbrALfhyTUb.6'
 WHERE email = 'monbus@prueba.com';
+
+UPDATE empresa
+SET email = LOWER(email);
+
+UPDATE usuario
+SET email = LOWER(email);

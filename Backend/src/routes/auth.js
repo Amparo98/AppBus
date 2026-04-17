@@ -12,10 +12,57 @@ function generateToken(payload) {
   });
 }
 
+/-------------USUARIO------------/
+// Registro de usuario
+router.post('/usuario/register', async (req, res) => {
+  try {
+    const { nombre, email, password } = req.body;
+    const nombreNormalized = nombre.trim().toLowerCase();
+    const emailNormalized = email.trim().toLowerCase();
+
+    if (!nombre || !email || !password) {
+      return res.status(400).json({
+        ok: false,
+        message: 'Todos los campos son obligatorios'
+      });
+    }
+
+    // Generar hash
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Guardar en BD
+    const query = `
+      INSERT INTO usuario (nombre, email, password_hash)
+      VALUES ($1, $2, $3)
+      RETURNING id_usuario, nombre, email
+    `;
+
+    const values = [nombreNormalized, emailNormalized, passwordHash];
+
+    const { rows } = await pool.query(query, values);
+
+    return res.status(201).json({
+      ok: true,
+      message: 'Usuario creado correctamente',
+      user: rows[0]
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      ok: false,
+      message: 'Error interno del servidor'
+    });
+  }
+});
+
+
 // Usuario login
 router.post('/usuario/login', async (req, res) => {
   try {
     const { email, password } = req.body;
+    const emailNormalized = email.trim().toLowerCase();
 
     if (!email || !password) {
       return res.status(400).json({
@@ -31,7 +78,7 @@ router.post('/usuario/login', async (req, res) => {
       LIMIT 1
     `;
 
-    const { rows } = await pool.query(query, [email]);
+    const { rows } = await pool.query(query, [emailNormalized]);
     const usuario = rows[0];
 
     if (!usuario) {
@@ -75,11 +122,57 @@ router.post('/usuario/login', async (req, res) => {
   }
 });
 
+/------------EMPRESA------------/
+/* Registro de empresa */
+router.post('/empresa/register', async (req, res) => {
+  try {
+    const { nombre, email, password } = req.body;
+    const nombreNormalized = nombre.trim().toLowerCase();
+    const emailNormalized = email.trim().toLowerCase();
+
+    if (!nombre || !email || !password) {
+      return res.status(400).json({
+        ok: false,
+        message: 'Todos los campos son obligatorios'
+      });
+    }
+
+    // Generar hash
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    // Guardar en BD
+    const query = `
+      INSERT INTO empresa (nombre, email, password_hash)
+      VALUES ($1, $2, $3)
+      RETURNING id_empresa, nombre, email
+    `;
+
+    const values = [nombreNormalized, emailNormalized, passwordHash];
+
+    const { rows } = await pool.query(query, values);
+
+    return res.status(201).json({
+      ok: true,
+      message: 'Empresa creada correctamente',
+      user: rows[0]
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      ok: false,
+      message: 'Error interno del servidor'
+    });
+  }
+});
+
 // Empresa login
 router.post('/empresa/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-
+    const emailNormalized = email.trim().toLowerCase();
+    
     if (!email || !password) {
       return res.status(400).json({
         ok: false,
@@ -94,7 +187,7 @@ router.post('/empresa/login', async (req, res) => {
       LIMIT 1
     `;
 
-    const { rows } = await pool.query(query, [email]);
+    const { rows } = await pool.query(query, [emailNormalized]);
     const empresa = rows[0];
 
     if (!empresa) {
