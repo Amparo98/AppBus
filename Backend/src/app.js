@@ -9,7 +9,12 @@ const errorMiddleware = require('./middlewares/error');
 const app = express();
 
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3005',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 app.use(logger('dev'));
 app.use(express.json());
 
@@ -32,3 +37,5 @@ app.use((req, res) => {
 app.use(errorMiddleware);
 
 module.exports = app;
+
+

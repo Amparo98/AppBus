@@ -246,3 +246,25 @@ Tecnología¿Correcta?Por quéNode.js + Express✅Estándar para APIs REST, lige
 
 Seguridad
 Tecnología¿Correcta?Por québcrypt✅Hashea contraseñas con salt automático, estándar del sectorjsonwebtoken✅Autenticación stateless mediante JWT, no requiere sesiones en servidorhelmet✅Añade ~15 headers de seguridad HTTP contra XSS, clickjacking, sniffingcors✅Controla qué dominios pueden consumir tu APIexpress-rate-limit✅Protege los endpoints de login contra ataques de fuerza brutaZod✅Valida y sanitiza los datos de entrada antes de que lleguen al controller
+
+
+
+----
+ZOD
+Esto deja pasar cosas como:
+
+Un email con formato inválido → "noesuncorreo"
+Una contraseña de 1 carácter → "a"
+Un nombre con números → "M4r14"
+Campos con solo espacios → "   "
+
+Zod te permite definir exactamente qué forma deben tener los datos.
+
+-----
+Helmet
+Añade headers de seguridad HTTP automáticamente. Protege contra ataques comunes como XSS, clickjacking, sniffing de contenido, etc. Es una sola línea pero por debajo configura ~15 headers de seguridad.
+
+-------
+
+CORS
+Controla qué dominios pueden hacer peticiones a tu API. Sin esto, cualquier web puede llamar a tu backend desde el navegador.
