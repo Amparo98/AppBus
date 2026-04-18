@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const env = require('../config/env');
-const authRepository = require('../repositories/consultas.js');
+const authRepository = require('../repositories/auth.js');
 
 function generateToken(payload) {
   return jwt.sign(payload, env.jwt.secret, {
