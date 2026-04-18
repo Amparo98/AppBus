@@ -5,6 +5,7 @@ const helmet = require('helmet');
 
 const authRoutes = require('./routes/auth');
 const errorMiddleware = require('./middlewares/error');
+const healthRouter = require('./routes/health.js');
 
 const app = express();
 
@@ -18,12 +19,7 @@ app.use(cors({
 app.use(logger('dev'));
 app.use(express.json());
 
-app.get('/health', (req, res) => {
-  res.status(200).json({
-    ok: true,
-    message: 'Backend funcionando correctamente'
-  });
-});
+app.use('/api/health', healthRouter);
 
 app.use('/api/auth', authRoutes);
 
