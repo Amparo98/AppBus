@@ -2,6 +2,8 @@ const express = require('express');
 const rateLimit = require('express-rate-limit');
 const authController = require('../controller/auth.js');
 const authMiddleware = require('../middlewares/auth.js');
+const validate = require('../middlewares/validate.js');
+const { loginSchema, registerUsuarioSchema, registerEmpresaSchema } = require('../schemas/auth.js');
 
 const router = express.Router();
 
@@ -21,12 +23,12 @@ const loginLimiter = rateLimit({
 });
 
 // Rutas de autenticación
-router.post('/usuario/login', loginLimiter, authController.loginUsuario);
-router.post('/empresa/login', loginLimiter, authController.loginEmpresa);
+router.post('/usuario/login', loginLimiter, validate(loginSchema), authController.loginUsuario);
+router.post('/empresa/login', loginLimiter, validate(loginSchema), authController.loginEmpresa);
 router.get('/me', authMiddleware, authController.me);
 
 // Rutas de registro
-router.post('/usuario/register', authController.registerUsuario);
-router.post('/empresa/register', authController.registerEmpresa);
+router.post('/usuario/register', validate(registerUsuarioSchema), authController.registerUsuario);
+router.post('/empresa/register', validate(registerEmpresaSchema), authController.registerEmpresa);
 
 module.exports = router;

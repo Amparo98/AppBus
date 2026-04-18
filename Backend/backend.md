@@ -238,3 +238,11 @@ La autenticación mediante JWT proporciona una solución moderna, segura y escal
 middlewares -> Sirve para guardar funciones reutilizables de control transversal.
 
 La carpeta middlewares centraliza funciones intermedias reutilizables ejecutadas antes del controlador principal. Permite separar responsabilidades como autenticación, autorización y validación, evitando duplicación de código y mejorando la mantenibilidad del backend.
+
+
+------------------
+Base de la API
+Tecnología¿Correcta?Por quéNode.js + Express✅Estándar para APIs REST, ligero y con gran ecosistemaPostgreSQL✅Base de datos relacional robusta, ideal para datos estructurados como usuarios y empresaspg (node-postgres)✅Driver oficial para conectar Node.js con PostgreSQLdotenv✅Mantiene credenciales fuera del código, nunca hardcodeadas
+
+Seguridad
+Tecnología¿Correcta?Por québcrypt✅Hashea contraseñas con salt automático, estándar del sectorjsonwebtoken✅Autenticación stateless mediante JWT, no requiere sesiones en servidorhelmet✅Añade ~15 headers de seguridad HTTP contra XSS, clickjacking, sniffingcors✅Controla qué dominios pueden consumir tu APIexpress-rate-limit✅Protege los endpoints de login contra ataques de fuerza brutaZod✅Valida y sanitiza los datos de entrada antes de que lleguen al controller

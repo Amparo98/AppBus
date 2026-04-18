@@ -9,6 +9,7 @@ function errorMiddleware(err, req, res, next) {
     ok: false,
     code: err.code || 'INTERNAL_ERROR',
     message: err.message || 'Error interno del servidor',
+    ...(err.details && { details: err.details }),
     ...(process.env.NODE_ENV === 'development' && { stack: err.stack })
   });
 }
