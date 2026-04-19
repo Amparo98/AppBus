@@ -6,6 +6,7 @@ const helmet = require('helmet');
 const authRoutes = require('./routes/auth');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
+const lineaRoutes = require('./routes/linea.js');
 
 const app = express();
 
@@ -20,7 +21,7 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.use('/api/health', healthRouter);
-
+app.use('/api/lineas', lineaRoutes);
 app.use('/api/auth', authRoutes);
 
 app.use((req, res) => {
