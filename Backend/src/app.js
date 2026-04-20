@@ -7,6 +7,7 @@ const authRoutes = require('./routes/auth');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
 const lineaRoutes = require('./routes/linea.js');
+const trayectoRoutes = require('./routes/trayecto.js');
 
 const app = express();
 
@@ -21,8 +22,11 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.use('/api/health', healthRouter);
-app.use('/api/lineas', lineaRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/lineas/:linea_id/trayectos', trayectoRoutes);
+app.use('/api/lineas', lineaRoutes);
+
+
 
 app.use((req, res) => {
   res.status(404).json({

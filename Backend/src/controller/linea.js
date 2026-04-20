@@ -56,10 +56,11 @@ async function actualizarLinea(req, res, next) {
 
 async function eliminarLinea(req, res, next) {
   try {
-    await lineaService.deleteLinea(req.params.codigo, req.user.id);
+    const linea = await lineaService.deleteLinea(req.params.codigo, req.user.id);
     res.status(200).json({ 
         ok: true, 
-        message: 'Línea eliminada correctamente' 
+        message: 'Línea eliminada correctamente',
+        linea
     });
   } catch (error) {
     next(error);
