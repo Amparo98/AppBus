@@ -73,5 +73,4 @@ module.exports = {
     crearLinea,
     actualizarLinea,
     eliminarLinea,
-
 };

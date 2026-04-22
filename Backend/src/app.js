@@ -9,6 +9,7 @@ const healthRouter = require('./routes/health.js');
 const lineaRoutes = require('./routes/linea.js');
 const trayectoRoutes = require('./routes/trayecto.js');
 const addConductorRoutes = require('./routes/add_conductor.js');
+const busRoutes = require('./routes/bus.js');
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/lineas/:linea_id/trayectos', trayectoRoutes);
 app.use('/api/lineas', lineaRoutes);
 app.use('/api/conductores', addConductorRoutes);
+app.use('/api/buses', busRoutes);
 
 
 app.use((req, res) => {

@@ -3,7 +3,6 @@ const authService = require('../service/auth.js');
 async function loginUsuario(req, res, next) {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res.status(400).json({
         ok: false,
