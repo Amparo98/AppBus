@@ -1,4 +1,5 @@
 const busRepository = require('../repositories/bus.js');
+const {validarTransicion} = require('../utils/transiciones.js');
 
 async function getBuses(empresa_id) {
   return await busRepository.getBusByEmpresa(empresa_id);
@@ -31,6 +32,17 @@ async function createBus(empresa_id, data) {
 }
 
 async function updateBus(id_bus, empresa_id, data) {
+  if (data.estado) {
+    const busActual = await busRepository.getBusById(id_bus, empresa_id);
+    if (!busActual) {
+      const error = new Error('Bus no encontrado');
+      error.status = 404;
+      error.code = 'BUS_NOT_FOUND';
+      throw error;
+    }
+    validarTransicion('bus', busActual.estado, data.estado); // 👈
+  }
+
   const bus = await busRepository.updateBus(id_bus, empresa_id, data);
   if (!bus) {
     const error = new Error('Bus no encontrado');

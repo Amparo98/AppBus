@@ -1,4 +1,5 @@
 const servicioRepository = require('../repositories/asignar_servicio.js');
+const {validarTransicion} = require('../utils/transiciones.js');
 
 async function getServicios(empresa_id) {
   return await servicioRepository.getServiciosByEmpresa(empresa_id);
@@ -46,6 +47,17 @@ async function createServicio(empresa_id, data) {
 }
 
 async function updateServicio(id_asignacion, empresa_id, data) {
+  if (data.estado) {
+    const servicioActual = await servicioRepository.getServicioById(id_asignacion, empresa_id);
+    if (!servicioActual) {
+      const error = new Error('Servicio no encontrado');
+      error.status = 404;
+      error.code = 'SERVICIO_NOT_FOUND';
+      throw error;
+    }
+    validarTransicion('servicio', servicioActual.estado, data.estado); // 👈
+  }
+
   const servicio = await servicioRepository.updateServicio(id_asignacion, empresa_id, data);
   if (!servicio) {
     const error = new Error('Servicio no encontrado');
