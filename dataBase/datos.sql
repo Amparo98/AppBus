@@ -50,3 +50,40 @@ SET email = LOWER(email);
 
 UPDATE usuario
 SET email = LOWER(email);
+
+ALTER TABLE conductor
+ADD COLUMN apellido VARCHAR(255);
+
+
+ALTER TABLE conductor
+ADD COLUMN token_activacion VARCHAR NULL,
+ADD COLUMN cuenta_activada BOOLEAN DEFAULT FALSE;
+
+
+ALTER TABLE conductor 
+ALTER COLUMN password_hash DROP NOT NULL;
+
+DELETE FROM conductor;
+
+
+
+SELECT pg_get_constraintdef(oid) 
+FROM pg_constraint 
+WHERE conname = 'conductor_email_check';
+
+ALTER TABLE bus 
+DROP COLUMN en_servicio;
+
+ALTER TABLE bus 
+ADD COLUMN en_servicio VARCHAR DEFAULT 'Operativo' 
+CHECK (en_servicio IN ('Operativo', 'En mantenimiento', 'Fuera de servicio'));
+
+
+ALTER TABLE bus 
+ALTER COLUMN ultima_actualizacion DROP NOT NULL;
+
+SELECT id_bus, empresa_id FROM bus;
+
+ALTER TABLE asignar_servicio 
+ADD COLUMN estado VARCHAR DEFAULT 'Programado'
+CHECK (estado IN ('Programado', 'En curso', 'Completado', 'Cancelado'));
