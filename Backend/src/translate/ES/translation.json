@@ -1,0 +1,13 @@
+{
+  "auth.login_success": "Inicio de sesión correcto",
+  "auth.invalid_credentials": "Email o contraseña incorrectos",
+  "auth.required_credentials": "Email y contraseña son obligatorios",
+
+  "auth.client_created": "Cliente creado correctamente",
+  "auth.company_created": "Empresa creada correctamente",
+  "auth.bus_driver_created": "Conductor de autobús creado correctamente",
+
+  "auth.client_login_success": "Inicio de sesión de cliente correcto",
+  "auth.company_login_success": "Inicio de sesión de empresa correcto",
+  "auth.bus_driver_login_success": "Inicio de sesión de conductor de autobús correcto"
+}

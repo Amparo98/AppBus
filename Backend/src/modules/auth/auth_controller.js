@@ -1,4 +1,5 @@
 const authService = require('./auth_service.js');
+const i18next = require('../../config/i18n.js');
 
 async function loginClient(req, res, next) {
   try {
@@ -6,7 +7,7 @@ async function loginClient(req, res, next) {
     if (!email || !password) {
       return res.status(400).json({
         ok: false,
-        message: 'Email y contraseña son obligatorios'
+        message: i18next.t('auth.required_credentials')
       });
     }
 
@@ -14,7 +15,7 @@ async function loginClient(req, res, next) {
 
     return res.status(200).json({
       ok: true,
-      message: 'Successful login verification ✅',
+      message: i18next.t('auth.login_success'),
       ...result
     });
   } catch (error) {
@@ -29,7 +30,7 @@ async function loginCompany(req, res, next) {
     if (!email || !password) {
       return res.status(400).json({
         ok: false,
-        message: 'Email y contraseña son obligatorios'
+        message: i18next.t('auth.required_credentials')
       });
     }
 
@@ -37,7 +38,7 @@ async function loginCompany(req, res, next) {
 
     return res.status(200).json({
       ok: true,
-      message: 'Successful company login ✅',
+      message: i18next.t('auth.login_success'),
       ...result
     });
   } catch (error) {
@@ -52,14 +53,14 @@ async function loginBusDriver(req, res, next) {
     if (!email || !password) {
       return res.status(400).json({
         ok: false,
-        message: 'Email y contraseña son obligatorios'
+        message: i18next.t('auth.required_credentials')
       });
     }
 
     const result = await authService.loginBusDriver(email, password);
     return res.status(200).json({
       ok: true,
-      message: 'Successful bus driver login ✅',
+      message: i18next.t('auth.login_success'),
       ...result
     });
   } catch (error) {
@@ -81,7 +82,7 @@ async function registerClient(req, res, next) {
 
       return res.status(201).json({
       ok: true,
-      message: 'Usuario creado correctamente',
+      message: i18next.t('auth.client_created'),
       user: result
       });
   } catch (error) {
@@ -95,7 +96,7 @@ async function registerCompany(req, res, next) {
 
       return res.status(201).json({
           ok: true,
-          message: 'Empresa creada correctamente',
+          message: i18next.t('auth.company_created'),
           empresa: result
       });
   } catch (error) {
