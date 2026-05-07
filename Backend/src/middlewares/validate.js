@@ -14,7 +14,7 @@ function validate(schema) {
       return next(error);
     }
 
-    req.body = result.data; // datos ya validados y limpios
+    req.body = result.data; 
     next();
   };
 }

@@ -25,6 +25,7 @@ const loginLimiter = rateLimit({
 // Rutas de autenticación
 router.post('/usuario/login', loginLimiter, validate(loginSchema), authController.loginUsuario);
 router.post('/empresa/login', loginLimiter, validate(loginSchema), authController.loginEmpresa);
+router.post('/conductor/login', loginLimiter, validate(loginSchema), authController.loginConductor);
 router.get('/me', authMiddleware, authController.me);
 
 // Rutas de registro

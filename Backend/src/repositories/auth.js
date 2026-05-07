@@ -22,6 +22,18 @@ async function getEmpresaByEmail(email) {
   return rows[0] || null;
 }
 
+async function getConductorByEmail(email) {
+  const query = `
+    SELECT id_conductor, nombre, apellido, email, password_hash, 
+           num_trabajador, cuenta_activada, activo
+    FROM conductor
+    WHERE email = $1
+    LIMIT 1
+  `;
+  const { rows } = await pool.query(query, [email]);
+  return rows[0] || null;
+}
+
 // para registro 
 async function createUsuario(nombre, email, passwordHash) {
     const query = `
@@ -66,9 +78,12 @@ async function existsEmpresaByEmail(email) {
     return rows[0].exists;
 }
 
+
+
 module.exports = {
   getUsuarioByEmail,
   getEmpresaByEmail,
+  getConductorByEmail,
   createUsuario,
   createEmpresa,
   existsUsuarioByEmail,

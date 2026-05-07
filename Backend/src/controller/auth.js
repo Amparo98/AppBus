@@ -3,7 +3,6 @@ const authService = require('../service/auth.js');
 async function loginUsuario(req, res, next) {
   try {
     const { email, password } = req.body;
-
     if (!email || !password) {
       return res.status(400).json({
         ok: false,
@@ -36,6 +35,28 @@ async function loginEmpresa(req, res, next) {
 
     const result = await authService.loginEmpresa(email, password);
 
+    return res.status(200).json({
+      ok: true,
+      message: 'Login correcto',
+      ...result
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function loginConductor(req, res, next) {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({
+        ok: false,
+        message: 'Email y contraseña son obligatorios'
+      });
+    }
+
+    const result = await authService.loginConductor(email, password);
     return res.status(200).json({
       ok: true,
       message: 'Login correcto',
@@ -85,6 +106,7 @@ async function registerEmpresa(req, res, next) {
 module.exports = {
   loginUsuario,
   loginEmpresa,
+  loginConductor,
   me,
   registerUsuario,
   registerEmpresa
