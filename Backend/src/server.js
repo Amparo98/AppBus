@@ -12,10 +12,10 @@ async function startServer() {
     await testDbConnection();
 
     server.listen(PORT, () => {
-      console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
+      console.log(`🌐 Servidor corriendo en http://localhost:${PORT}`);
     });
   } catch (error) {
-    console.error('❌ No se pudo iniciar el servidor:', error);
+    console.error('🤕 No se pudo iniciar el servidor:', error);
     process.exit(1);
   }
 }

@@ -3,16 +3,16 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./modules/auth/auth_routes.js');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
-const lineaRoutes = require('./routes/linea.js');
-const trayectoRoutes = require('./routes/trayecto.js');
-const addConductorRoutes = require('./routes/add_conductor.js');
-const busRoutes = require('./routes/bus.js');
-const servicioRoutes = require('./routes/asignar_servicio.js');
-const incidenciaRoutes = require('./routes/incidencia.js');
-const avisoRoutes = require('./routes/aviso_servicio.js');
+const lineaRoutes = require('./modules/linea/linea_routes.js');
+const trayectoRoutes = require('./modules/red_transporte/trayecto_routes.js');
+const ConductorRoutes = require('./modules/conductor/conductor_routes.js');
+const busRoutes = require('./modules/bus/bus_routes.js');
+const servicioRoutes = require('./modules/servicio/asignar_servicio_routes.js');
+const incidenciaRoutes = require('./modules/incidencia/incidencia_routes.js');
+const avisoServicioRoutes = require('./modules/servicio/aviso_servicio_routes.js');
 
 const app = express();
 
@@ -30,11 +30,11 @@ app.use('/api/health', healthRouter);
 app.use('/api/auth', authRoutes);
 app.use('/api/lineas/:linea_id/trayectos', trayectoRoutes);
 app.use('/api/lineas', lineaRoutes);
-app.use('/api/conductores', addConductorRoutes);
+app.use('/api/conductores', ConductorRoutes);
 app.use('/api/buses', busRoutes);
 app.use('/api/servicios', servicioRoutes);
 app.use('/api/incidencias', incidenciaRoutes);
-app.use('/api/avisos', avisoRoutes);
+app.use('/api/avisos', avisoServicioRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

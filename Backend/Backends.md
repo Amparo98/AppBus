@@ -1,0 +1,2 @@
+Para una l¡mejor limpieza de codigo y para posibles implementaciones se cambio todo a ingles
+para los textos se utilizara i18n (porque  detecta el idioma automáticamente según el header Accept-Language de la petición) para una gestion de textos en multiples idicomas, como estoy utilizando las tecnologias de Node.js y Express, se va a utilizar i18next

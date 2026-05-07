@@ -5,7 +5,7 @@ try {
     subject: 'Activa tu cuenta de conductor',
     html: `<p>Tu enlace: <a href="${enlace}">Activar cuenta</a></p>`
   });
-  console.log('Email enviado:', resultado); // 👈
+  console.log('📨 Email enviado:', resultado); 
 } catch (emailError) {
-  console.error('Error Resend:', emailError); // 👈
+  console.error('🚨 Error Resend:', emailError); 
 }

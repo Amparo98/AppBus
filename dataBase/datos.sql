@@ -51,8 +51,8 @@ SET email = LOWER(email);
 UPDATE usuario
 SET email = LOWER(email);
 
-ALTER TABLE conductor
-ADD COLUMN apellido VARCHAR(255);
+ALTER TABLE usuario
+ADD COLUMN apellidos VARCHAR(255);
 
 
 ALTER TABLE conductor
@@ -63,9 +63,15 @@ ADD COLUMN cuenta_activada BOOLEAN DEFAULT FALSE;
 ALTER TABLE conductor 
 ALTER COLUMN password_hash DROP NOT NULL;
 
-DELETE FROM conductor;
+/*elimar datos de prueba*/
+DELETE FROM usuario;
+
+/*Cambiar a UNIQUE una columnas*/
+ALTER TABLE usuario ADD UNIQUE (email);
 
 
+ALTER TABLE public.usuario 
+DROP CONSTRAINT usuario_email_key1;
 
 SELECT pg_get_constraintdef(oid) 
 FROM pg_constraint 
@@ -87,3 +93,6 @@ SELECT id_bus, empresa_id FROM bus;
 ALTER TABLE asignar_servicio 
 ADD COLUMN estado VARCHAR DEFAULT 'Programado'
 CHECK (estado IN ('Programado', 'En curso', 'Completado', 'Cancelado'));
+
+
+ALTER TABLE usuario DROP COLUMN apellido;
