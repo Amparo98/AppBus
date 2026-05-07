@@ -78,8 +78,6 @@ async function existsEmpresaByEmail(email) {
     return rows[0].exists;
 }
 
-
-
 module.exports = {
   getUsuarioByEmail,
   getEmpresaByEmail,

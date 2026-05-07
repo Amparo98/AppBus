@@ -25,6 +25,18 @@ async function verAviso(req, res, next) {
   }
 }
 
+async function verServiciosConductor(req, res, next) {
+  try {
+    // El estado viene como query param opcional: /api/conductor/servicios?estado=En curso
+    const { estado } = req.query;
+    const servicios = await servicioService.getServiciosConductor(req.user.id, estado);
+    res.status(200).json({ ok: true, servicios });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 async function crearAviso(req, res, next) {
   try {
     const aviso = await avisoServicioService.createAviso(req.user.id, req.body);
@@ -65,4 +77,4 @@ async function eliminarAviso(req, res, next) {
   }
 }
 
-module.exports = { verAvisos, verAviso, crearAviso, actualizarAviso, eliminarAviso };
+module.exports = { verAvisos, verAviso, verServiciosConductor, crearAviso, actualizarAviso, eliminarAviso };

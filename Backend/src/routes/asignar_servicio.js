@@ -14,5 +14,6 @@ router.get('/:id_asignacion',    servicioController.verServicio);
 router.post('/',                 validate(crearServicioSchema), servicioController.crearServicio);
 router.put('/:id_asignacion',    validate(actualizarServicioSchema), servicioController.actualizarServicio);
 router.delete('/:id_asignacion', servicioController.eliminarServicio);
-
+// Ruta conductor — ver sus propios servicios
+router.get('/conductor/mis-servicios', authMiddleware, roleMiddleware('conductor'), servicioController.verServiciosConductor);
 module.exports = router;

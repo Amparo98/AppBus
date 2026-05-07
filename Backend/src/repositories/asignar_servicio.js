@@ -47,6 +47,33 @@ async function createServicio(conductor_id, bus_id, trayecto_id, fecha_inicio, f
   return rows[0];
 }
 
+async function getServiciosByConductor(conductor_id, estado) {
+  let query = `
+    SELECT a.id_asignacion, a.bus_id, a.trayecto_id,
+           a.fecha_inicio, a.fecha_fin, a.estado, a.created_at,
+           b.matricula AS bus_matricula,
+           t.origen, t.destino, t.sentido,
+           l.nombre AS linea_nombre, l.codigo AS linea_codigo, l.color AS linea_color
+    FROM asignar_servicio a
+    JOIN bus b ON b.id_bus = a.bus_id
+    JOIN trayecto t ON t.id_trayecto = a.trayecto_id
+    JOIN linea l ON l.id_linea = t.linea_id
+    WHERE a.conductor_id = $1
+  `;
+
+  const values = [conductor_id];
+
+  if (estado) {
+    query += ` AND a.estado = $2`;
+    values.push(estado);
+  }
+
+  query += ` ORDER BY a.fecha_inicio DESC`;
+
+  const { rows } = await pool.query(query, values);
+  return rows;
+}
+
 async function updateServicio(id_asignacion, empresa_id, fields) {
   const keys = Object.keys(fields);
   const values = Object.values(fields);
@@ -97,5 +124,6 @@ module.exports = {
   createServicio, 
   updateServicio, 
   deleteServicio,
-  verificarPertenencia
+  verificarPertenencia,
+  getServiciosByConductor
 };

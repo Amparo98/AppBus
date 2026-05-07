@@ -16,6 +16,19 @@ async function getServicio(id_asignacion, empresa_id) {
   return servicio;
 }
 
+async function getServiciosConductor(conductor_id, estado) {
+  const estadosValidos = ['Programado', 'En curso', 'Completado', 'Cancelado'];
+
+  if (estado && !estadosValidos.includes(estado)) {
+    const error = new Error(`Estado inválido. Los valores permitidos son: ${estadosValidos.join(', ')}`);
+    error.status = 400;
+    error.code = 'INVALID_STATE';
+    throw error;
+  }
+
+  return await servicioRepository.getServiciosByConductor(conductor_id, estado);
+}
+
 async function createServicio(empresa_id, data) {
   const { conductor_id, bus_id, trayecto_id, fecha_inicio, fecha_fin } = data;
 
@@ -78,4 +91,4 @@ async function deleteServicio(id_asignacion, empresa_id) {
   }
 }
 
-module.exports = { getServicios, getServicio, createServicio, updateServicio, deleteServicio };
+module.exports = { getServicios, getServicio, createServicio, updateServicio, deleteServicio, getServiciosConductor };
