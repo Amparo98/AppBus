@@ -64,7 +64,7 @@ ALTER TABLE conductor
 ALTER COLUMN password_hash DROP NOT NULL;
 
 /*elimar datos de prueba*/
-DELETE FROM usuario;
+DELETE FROM client;
 
 /*Cambiar a UNIQUE una columnas*/
 ALTER TABLE usuario ADD UNIQUE (email);

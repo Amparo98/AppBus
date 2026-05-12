@@ -1,13 +1,44 @@
 {
-  "auth.login_success": "Inicio de sesión correcto",
-  "auth.invalid_credentials": "Email o contraseña incorrectos",
-  "auth.required_credentials": "Email y contraseña son obligatorios",
+  "auth":{
+    "login_success": "Login successful",
+    "invalid_credentials": "Invalid email or password",
+    "required_credentials": "Email and password are required",
+  
+    "client_created": "Client created successfully",
+    "company_created": "Company created successfully",
+    "bus_driver_created": "Bus driver created successfully",
+  
+    "client_login_success": "Client login successful",
+    "company_login_success": "Company login successful",
+    "bus_driver_login_success": "Bus driver login successful",
+  
+    "too_many_attempts": "Too many login attempts, please wait 15 minutes"
+  },
 
-  "auth.client_created": "Cliente creado correctamente",
-  "auth.company_created": "Empresa creada correctamente",
-  "auth.bus_driver_created": "Conductor de autobús creado correctamente",
+  "validation": {
+    "email": {
+      "invalid": "Email inválido"
+    },
+    "password": {
+      "min": "La contraseña debe tener al menos {{min}} caracteres"
+    },
+    "name": {
+      "min": "El nombre debe tener al menos 2 caracteres"
+    },
+    "surname": {
+      "min": "El apellido debe tener al menos 2 caracteres"
+    }
+  },
 
-  "auth.client_login_success": "Inicio de sesión de cliente correcto",
-  "auth.company_login_success": "Inicio de sesión de empresa correcto",
-  "auth.bus_driver_login_success": "Inicio de sesión de conductor de autobús correcto"
+
+"errors": {
+  "INTERNAL_ERROR": "Error interno del servidor",
+  "INVALID_CREDENTIALS": "Credenciales inválidas",
+  "ACCOUNT_NOT_ACTIVATED": "Debes activar tu cuenta primero, revisa tu email",
+  "ACCOUNT_DISABLED": "Tu cuenta está deshabilitada, contacta con tu empresa",
+  "EMAIL_ALREADY_EXISTS": "El email ya está registrado",
+  "REQUIRED_FIELDS": "Todos los campos son obligatorios",
+  "VALIDATION_ERROR": "Datos de entrada inválidos"
+}
+
 }

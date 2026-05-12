@@ -2,8 +2,8 @@ const { pool } = require('../../config/db');
 
 async function getClientByEmail(email) {
   const query = `
-    SELECT id_usuario, nombre, apellidos, email, password_hash
-    FROM usuario
+    SELECT id_client, full_name, first_surname, second_surname, email, password_hash
+    FROM client
     WHERE email = $1
     LIMIT 1
   `;
@@ -13,8 +13,8 @@ async function getClientByEmail(email) {
 
 async function getCompanyByEmail(email) {
   const query = `
-    SELECT id_empresa, nombre, email, password_hash
-    FROM empresa
+    SELECT id_company, name_company, email, password_hash 
+    FROM company
     WHERE email = $1
     LIMIT 1
   `;
@@ -22,11 +22,11 @@ async function getCompanyByEmail(email) {
   return rows[0] || null;
 }
 
-async function getBusDriverByEmail(email) {
+async function getDriverByEmail(email) {
   const query = `
-    SELECT id_conductor, nombre, apellido, email, password_hash, 
-           num_trabajador, cuenta_activada, activo
-    FROM conductor
+    SELECT id_driver, full_name, first_surname, second_surname, email, password_hash,
+            employee_number, is_account_activated, is_active
+    FROM driver
     WHERE email = $1
     LIMIT 1
   `;
@@ -35,33 +35,34 @@ async function getBusDriverByEmail(email) {
 }
 
 // para registro 
-async function createClient(nombre, apellidos, email, passwordHash) {
-    const query = `
-        INSERT INTO usuario (nombre, apellidos,email, password_hash)
-        VALUES ($1, $2, $3, $4)
-        RETURNING id_usuario, nombre, apellidos, email
-    `;
-    const values = [nombre, apellidos, email, passwordHash];
-    const { rows } = await pool.query(query, values);    
-    return rows[0];
+async function createClient(fullName, firstSurname, secondSurname, email, passwordHash) {
+  const query = `
+    INSERT INTO client (full_name, first_surname, second_surname, email, password_hash)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING id_client, full_name, first_surname, second_surname, email
+  `;
+
+  const values = [fullName, firstSurname, secondSurname, email, passwordHash];
+  const { rows } = await pool.query(query, values);
+  return rows[0];
 }
 
-async function createCompany(nombre, email, passwordHash) {
+async function createCompany(nameCompany, email, passwordHash) {
     const query = `
-        INSERT INTO empresa (nombre, email, password_hash)
+        INSERT INTO company (name_company, email, password_hash)
         VALUES ($1, $2, $3)
-        RETURNING id_empresa, nombre, email
+        RETURNING id_company, name_company, email
     `;
-    const values = [nombre, email, passwordHash];
+    const values = [nameCompany, email, passwordHash];
     const { rows } = await pool.query(query, values);    
     return rows[0];
 }
 
 
-async function existsClient(email) {
+async function existsClientByEmail(email) {
     const query = `
         SELECT EXISTS (
-            SELECT 1 FROM usuario WHERE email = $1
+            SELECT 1 FROM client WHERE email = $1
         ) AS exists
     `;
     const { rows } = await pool.query(query, [email]);
@@ -71,7 +72,7 @@ async function existsClient(email) {
 async function existsCompanyByEmail(email) {
     const query = `
         SELECT EXISTS (
-            SELECT 1 FROM empresa WHERE email = $1
+            SELECT 1 FROM company WHERE email = $1
         ) AS exists
     `;
     const { rows } = await pool.query(query, [email]);
@@ -81,9 +82,9 @@ async function existsCompanyByEmail(email) {
 module.exports = {
   getClientByEmail,
   getCompanyByEmail,
-  getBusDriverByEmail,
+  getDriverByEmail,
   createClient,
   createCompany,
-  existsClient,
+  existsClientByEmail,
   existsCompanyByEmail
 };

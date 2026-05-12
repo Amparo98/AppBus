@@ -5,6 +5,8 @@ const authMiddleware = require('../../middlewares/auth.js');
 const validate = require('../../middlewares/validate.js');
 const { loginRules, registerClientRules, registerCompanyRules } = require('./auth_rules.js');
 
+const i18next = require('../../config/i18n.js');
+
 const router = express.Router();
 
 /*Limita cuántas peticiones puede hacer una misma IP en un periodo de tiempo
@@ -15,21 +17,26 @@ const loginLimiter = rateLimit({
   max: 10,                   // máximo 10 intentos por IP
   standardHeaders: true,     // devuelve info del límite en headers RateLimit-*
   legacyHeaders: false,      // desactiva headers X-RateLimit-* antiguos
-  message: {
-    ok: false,
-    code: 'TOO_MANY_REQUESTS',
-    message: 'Demasiados intentos de login, espera 15 minutos'
+  handler: (req, res) => {
+    const lang = req.headers['accept-language'] || 'es';
+
+    return res.status(429).json({
+      ok: false,
+      code: 'TOO_MANY_REQUESTS',
+      message: i18next.t('auth.too_many_attempts', { lng: lang })
+    });
   }
 });
 
 // Rutas de autenticación
-router.post('/client/loginClient', loginLimiter, validate(loginRules), authController.loginClient);
-router.post('/company/loginCompany', loginLimiter, validate(loginRules), authController.loginCompany);
-router.post('/busDriver/loginBusDriver', loginLimiter, validate(loginRules), authController.loginBusDriver);
+router.post('/client/login', loginLimiter, validate(loginRules), authController.loginClient);
+router.post('/company/login', loginLimiter, validate(loginRules), authController.loginCompany);
+router.post('/driver/login', loginLimiter, validate(loginRules), authController.loginDriver);
+
 router.get('/me', authMiddleware, authController.me);
 
 // Rutas de registro
-router.post('/client/registerClient', validate(registerClientRules), authController.registerClient);
-router.post('/company/registerCompany', validate(registerCompanyRules), authController.registerCompany);
+router.post('/client/register', validate(registerClientRules), authController.registerClient);
+router.post('/company/register', validate(registerCompanyRules), authController.registerCompany);
 
 module.exports = router;

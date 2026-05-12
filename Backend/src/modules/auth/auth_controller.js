@@ -1,21 +1,20 @@
 const authService = require('./auth_service.js');
 const i18next = require('../../config/i18n.js');
 
+//Opcional, esto se utiliza para el cambio de idiomas segun el header que estemos utilizando 
+function getLang(req) {
+  return req.headers['accept-language'] || 'es';
+}
+
 async function loginClient(req, res, next) {
   try {
+    const lang = getLang(req);
     const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({
-        ok: false,
-        message: i18next.t('auth.required_credentials')
-      });
-    }
-
     const result = await authService.loginClient(email, password);
 
     return res.status(200).json({
       ok: true,
-      message: i18next.t('auth.login_success'),
+      message: i18next.t('auth.login_success', { lng: lang }),
       ...result
     });
   } catch (error) {
@@ -25,20 +24,13 @@ async function loginClient(req, res, next) {
 
 async function loginCompany(req, res, next) {
   try {
+    const lang = getLang(req);
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({
-        ok: false,
-        message: i18next.t('auth.required_credentials')
-      });
-    }
-
     const result = await authService.loginCompany(email, password);
 
     return res.status(200).json({
       ok: true,
-      message: i18next.t('auth.login_success'),
+      message: i18next.t('auth.login_success', { lng: lang }),
       ...result
     });
   } catch (error) {
@@ -46,21 +38,14 @@ async function loginCompany(req, res, next) {
   }
 }
 
-async function loginBusDriver(req, res, next) {
+async function loginDriver(req, res, next) {
   try {
+    const lang = getLang(req);
     const { email, password } = req.body;
-
-    if (!email || !password) {
-      return res.status(400).json({
-        ok: false,
-        message: i18next.t('auth.required_credentials')
-      });
-    }
-
-    const result = await authService.loginBusDriver(email, password);
+    const result = await authService.loginDriver(email, password);
     return res.status(200).json({
       ok: true,
-      message: i18next.t('auth.login_success'),
+      message: i18next.t('auth.login_success', { lng: lang }),
       ...result
     });
   } catch (error) {
@@ -69,21 +54,22 @@ async function loginBusDriver(req, res, next) {
 }
 
 async function me(req, res) {
-    return res.status(200).json({
-        ok: true,
-        user: req.user
-    });
+  return res.status(200).json({
+    ok: true,
+    user: req.user
+  });
 }
 
 // Registro de usuario
 async function registerClient(req, res, next) { 
   try {
+      const lang = getLang(req);
       const result = await authService.registerClient(req.body);
 
       return res.status(201).json({
       ok: true,
-      message: i18next.t('auth.client_created'),
-      user: result
+      message: i18next.t('auth.client_created', { lng: lang }),
+      client: result
       });
   } catch (error) {
       next(error);
@@ -92,12 +78,13 @@ async function registerClient(req, res, next) {
 
 async function registerCompany(req, res, next) { 
   try {
+      const lang = getLang(req);
       const result = await authService.registerCompany(req.body);
 
       return res.status(201).json({
           ok: true,
-          message: i18next.t('auth.company_created'),
-          empresa: result
+          message: i18next.t('auth.company_created', { lng: lang }),
+          company: result
       });
   } catch (error) {
       next(error);
@@ -107,7 +94,7 @@ async function registerCompany(req, res, next) {
 module.exports = {
   loginClient,
   loginCompany,
-  loginBusDriver,
+  loginDriver,
   me,
   registerClient,
   registerCompany

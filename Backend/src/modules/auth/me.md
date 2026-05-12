@@ -1,4 +1,11 @@
 Como al registrarse un conductor tiene mas complicaciones porque se debe tener un correo para cada persona lo q se hara en esta oasion, es que los email se puedan repetir para que los correos de confirmacion se manden a al mismo correo en esta ocasion, en posibles implementaciones es que segun el correo que tenga cada conductor en su curriculum la empresa le enviara el enlace de acceso a ese correo 
 
 - cuando se hace un registro de los clientes, se codifcio que tanto los nombres como el correo se convierta todo en minusculas para que cuando se accede y auqnue en el correo se ponga una mayuscula no de erro, lo que si dara error es si hay esoacios en los correos.
-- 
+
+
+
+AUTH CONTROLA
+el registro de Cliente y empresa
+login de C, E y CONDUCTOR
+
+en zod ponemos el .strict(); porque como el segundo apellido es opcional, da igual la variable que se ponga porque te acepta lo q sea, por eso el .strict();
