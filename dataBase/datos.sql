@@ -64,7 +64,7 @@ ALTER TABLE conductor
 ALTER COLUMN password_hash DROP NOT NULL;
 
 /*elimar datos de prueba*/
-DELETE FROM client;
+DELETE FROM bus;
 
 /*Cambiar a UNIQUE una columnas*/
 ALTER TABLE usuario ADD UNIQUE (email);
@@ -96,3 +96,12 @@ CHECK (estado IN ('Programado', 'En curso', 'Completado', 'Cancelado'));
 
 
 ALTER TABLE usuario DROP COLUMN apellido;
+
+
+ALTER TABLE bus
+ADD CONSTRAINT chk_bus_license_plate_format
+CHECK (license_plate ~* '^[0-9]{4}[B-DF-HJ-NP-TV-Z]{3}$');
+
+ALTER TABLE bus
+ADD CONSTRAINT uq_bus_company_license_plate
+UNIQUE (company_id, license_plate);

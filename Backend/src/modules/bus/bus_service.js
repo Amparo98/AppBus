@@ -1,66 +1,50 @@
 const busRepository = require('./bus_repositories.js');
 const {validarTransicion} = require('../../utils/state_transition.js');
 
-async function getBuses(empresa_id) {
-  return await busRepository.getBusByEmpresa(empresa_id);
+const appError = require('../../utils/appError.js');
+
+async function getAllBuses(company_id) {
+  return await busRepository.getBusByEmpresa(company_id);
 }
 
-async function getBus(id_bus, empresa_id) {
-  const bus = await busRepository.getBusById(id_bus, empresa_id);
-  if (!bus) {
-    const error = new Error('Bus no encontrado');
-    error.status = 404;
-    error.code = 'BUS_NOT_FOUND';
-    throw error;
-  }
+async function getBus(id_bus, company_id) {
+  const bus = await busRepository.getBusById(id_bus, company_id);
+  if (!bus) throw appError('BUS_NOT_FOUND', 404);
   return bus;
 }
 
-async function createBus(empresa_id, data) {
-  const { matricula } = data;
-  const matriculaNormalized = matricula.trim().toUpperCase();
+async function addBus(company_id, data) {
+  const { license_plate } = data;
+  const licenseNormalized = license_plate.trim().toUpperCase();
 
-  const exists = await busRepository.existsBusByMatricula(matriculaNormalized, empresa_id);
-  if (exists) {
-    const error = new Error('Ya existe un bus con esa matrícula');
-    error.status = 409;
-    error.code = 'MATRICULA_ALREADY_EXISTS';
-    throw error;
-  }
+  const exists = await busRepository.existsBusByLicensePlate(licenseNormalized, company_id);
+  if (exists) throw appError('LICENSE_ALREADY_EXISTS', 409);
 
-  return await busRepository.createBus(empresa_id, matriculaNormalized);
+  return await busRepository.createBus(company_id, licenseNormalized);
 }
 
-async function updateBus(id_bus, empresa_id, data) {
-  if (data.estado) {
-    const busActual = await busRepository.getBusById(id_bus, empresa_id);
-    if (!busActual) {
-      const error = new Error('Bus no encontrado');
-      error.status = 404;
-      error.code = 'BUS_NOT_FOUND';
-      throw error;
-    }
-    validarTransicion('bus', busActual.estado, data.estado); // 👈
+async function updateBus(id_bus, company_id, data) {
+  if (data.statu) {
+    const currentBus = await busRepository.getBusById(id_bus, company_id);
+    if (!currentBus) throw appError('BUS_NOT_FOUND', 404);
+    validarTransicion('bus', currentBus.statu, data.statu);
   }
 
-  const bus = await busRepository.updateBus(id_bus, empresa_id, data);
-  if (!bus) {
-    const error = new Error('Bus no encontrado');
-    error.status = 404;
-    error.code = 'BUS_NOT_FOUND';
-    throw error;
-  }
+  const bus = await busRepository.updateBus(id_bus, company_id, data);
+  if (!bus) throw appError('BUS_NOT_FOUND', 404);
   return bus;
 }
 
-async function deleteBus(id_bus, empresa_id) {
-  const bus = await busRepository.deleteBus(id_bus, empresa_id);
-  if (!bus) {
-    const error = new Error('Bus no encontrado');
-    error.status = 404;
-    error.code = 'BUS_NOT_FOUND';
-    throw error;
-  }
+async function deleteBus(id_bus, company_id) {
+  const bus = await busRepository.deleteBus(id_bus, company_id);
+  if (!bus) throw appError('BUS_NOT_FOUND', 404);
+  return bus;
 }
 
-module.exports = { getBuses, getBus, createBus, updateBus, deleteBus };
+module.exports = { 
+  getAllBuses, 
+  getBus, 
+  addBus, 
+  updateBus, 
+  deleteBus 
+};

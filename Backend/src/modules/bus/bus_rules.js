@@ -1,16 +1,31 @@
-const {z} = require ('zod');
+const { z } = require('zod');
 
-const estadoEnum = z.enum(['Operativo', 'En mantenimiento', 'Fuera de servicio']);
+const busStatus = z.enum(['Operativo', 'En mantenimiento', 'Fuera de servicio']);
 
-const crearBusSchema = z.object({
-  matricula: z.string().min(1, 'La matrícula es obligatoria')
+const licensePlateRegex = /^[0-9]{4}[A-Z]{3}$/;
+
+const addBusRules = z.object({
+  license_plate: z
+    .string()
+    .trim()
+    .toUpperCase()
+    .regex(licensePlateRegex, 'validation.bus.license_plate_invalid')
+}).strict();
+
+const updateBusRules = z.object({
+  license_plate: z
+    .string()
+    .trim()
+    .toUpperCase()
+    .regex(licensePlateRegex, 'validation.bus.license_plate_invalid')
+    .optional(),
+
+  statu: busStatus.optional()
+}).strict().refine(data => Object.keys(data).length > 0, {
+  message: 'validation.update.at_least_one_field'
 });
 
-const actualizarBusSchema = z.object({
-  matricula: z.string().min(1).optional(),
-  en_servicio: estadoEnum.optional()
-}).refine(data => Object.keys(data).length > 0, {
-  message: 'Debes enviar al menos un campo para actualizar'
-});
-
-module.exports = { crearBusSchema, actualizarBusSchema };
+module.exports = {
+  addBusRules,
+  updateBusRules
+};

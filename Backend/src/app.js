@@ -27,11 +27,11 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.use('/api/health', healthRouter);
-app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes); //corregido
 app.use('/api/lineas/:linea_id/trayectos', trayectoRoutes);
 app.use('/api/lineas', lineaRoutes);
 app.use('/api/conductores', ConductorRoutes);
-app.use('/api/buses', busRoutes);
+app.use('/api/bus', busRoutes); //corregido
 app.use('/api/servicios', servicioRoutes);
 app.use('/api/incidencias', incidenciaRoutes);
 app.use('/api/avisos', avisoServicioRoutes);

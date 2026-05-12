@@ -1,8 +1,15 @@
+const { createBus } = require('./bus_repositories.js');
 const buService = require('./bus_service.js');
+const i18next = require('../../config/i18n.js');
 
-async function verTodosBuses(req, res, next) {
+function getLang(req) {
+  return req.headers['accept-language'] || 'es';
+}
+
+
+async function getAllBuses(req, res, next) {
   try {
-    const buses = await buService.getBuses(req.user.id);
+    const buses = await buService.getAllBuses(req.user.id);
     res.status(200).json({
       ok: true,
       buses
@@ -12,7 +19,7 @@ async function verTodosBuses(req, res, next) {
   }
 }
 
-async function verBus(req, res, next) {
+async function getBus(req, res, next) {
   try {
     const bus = await buService.getBus(req.params.id_bus, req.user.id);
 
@@ -25,13 +32,14 @@ async function verBus(req, res, next) {
   }
 }
 
-async function crearBus(req, res, next) {
+async function addBus(req, res, next) {
   try {
-    const bus = await buService.createBus(req.user.id, req.body);
+    const lang = getLang(req);
+    const bus = await buService.addBus(req.user.id, req.body);
 
     res.status(201).json({
       ok: true,
-      message: 'Bus creado correctamente',
+      message: i18next.t('bus.created_successfully', { lng: lang }),
       bus
     });
   } catch (error) {
@@ -39,13 +47,14 @@ async function crearBus(req, res, next) {
   }
 }
 
-async function actualizarBus(req, res, next) {
+async function updateBus(req, res, next) {
   try {
+    const lang = getLang(req);
     const bus = await buService.updateBus(req.params.id_bus, req.user.id, req.body);
 
     res.status(200).json({
       ok: true,
-      message: 'Bus actualizado correctamente',
+      message: i18next.t('bus.updated_successfully', { lng: lang }),
       bus
     });
   } catch (error) {
@@ -53,12 +62,13 @@ async function actualizarBus(req, res, next) {
   }
 }
 
-async function eliminarBus(req, res, next) {
+async function deleteBus(req, res, next) {
   try {
+    const lang = getLang(req);
     const bus = await buService.deleteBus(req.params.id_bus, req.user.id);
     res.status(200).json({
       ok: true,
-      message: 'Bus eliminado correctamente',
+      message: i18next.t('bus.deleted_successfully', { lng: lang }),
       bus
     });
   } catch (error) {
@@ -67,9 +77,9 @@ async function eliminarBus(req, res, next) {
 }
 
 module.exports = {
-  verTodosBuses,
-  verBus,
-  crearBus,
-  actualizarBus,
-  eliminarBus
+  getAllBuses,
+  getBus,
+  addBus,
+  updateBus,
+  deleteBus
 }

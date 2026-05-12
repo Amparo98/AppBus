@@ -27,18 +27,34 @@
     },
     "surname": {
       "min": "El apellido debe tener al menos 2 caracteres"
+    },
+    "bus": {
+      "license_plate_invalid": "La matrícula debe tener 4 números y 3 letras"
+    },
+    "update": {
+      "at_least_one_field": "Debes enviar al menos un campo para actualizar"
     }
   },
 
+  "bus":{
+    "created_successfully": "Bus creado correctamente",
+    "updated_successfully": "Bus actualizado correctamente",
+    "deleted_successfully": "Bus eliminado correctamente"
+  },
 
-"errors": {
-  "INTERNAL_ERROR": "Error interno del servidor",
-  "INVALID_CREDENTIALS": "Credenciales inválidas",
-  "ACCOUNT_NOT_ACTIVATED": "Debes activar tu cuenta primero, revisa tu email",
-  "ACCOUNT_DISABLED": "Tu cuenta está deshabilitada, contacta con tu empresa",
-  "EMAIL_ALREADY_EXISTS": "El email ya está registrado",
-  "REQUIRED_FIELDS": "Todos los campos son obligatorios",
-  "VALIDATION_ERROR": "Datos de entrada inválidos"
-}
 
+  "errors": {
+    "INTERNAL_ERROR": "Error interno del servidor",
+    "INVALID_CREDENTIALS": "Credenciales inválidas",
+    "ACCOUNT_NOT_ACTIVATED": "Debes activar tu cuenta primero, revisa tu email",
+    "ACCOUNT_DISABLED": "Tu cuenta está deshabilitada, contacta con tu empresa",
+    "EMAIL_ALREADY_EXISTS": "El email ya está registrado",
+    "REQUIRED_FIELDS": "Todos los campos son obligatorios",
+    "VALIDATION_ERROR": "Datos de entrada inválidos"
+  },
+
+  "errorBus": {
+    "BUS_NOT_FOUND": "Bus no encontrado",
+    "LICENSE_ALREADY_EXISTS": "Ya existe un bus con esa matrícula",
+  }
 }
