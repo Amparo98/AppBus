@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const authRoutes = require('./modules/auth/auth_routes.js');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
-const lineaRoutes = require('./modules/linea/linea_routes.js');
+const lineRoutes = require('./modules/line/line_routes.js');
 const trayectoRoutes = require('./modules/red_transporte/trayecto_routes.js');
 const driverRoutes = require('./modules/driver/driver_routes.js');
 const busRoutes = require('./modules/bus/bus_routes.js');
@@ -28,8 +28,8 @@ app.use(express.json());
 
 app.use('/api/health', healthRouter);
 app.use('/api/auth', authRoutes); //corregido
-app.use('/api/lineas/:linea_id/trayectos', trayectoRoutes);
-app.use('/api/lineas', lineaRoutes);
+app.use('/api/line/:line_id/trayectos', trayectoRoutes);
+app.use('/api/line', lineRoutes);
 app.use('/api/driver', driverRoutes);
 app.use('/api/bus', busRoutes); //corregido
 app.use('/api/servicios', servicioRoutes);

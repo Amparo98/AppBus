@@ -36,6 +36,12 @@
     "activateAccountButton": "Activar cuenta",
     "linkExpires": "Este enlace expirará en 24 horas."
   },
+  
+  "line": {
+    "created_successfully": "Línea creada correctamente",
+    "updated_successfully": "Línea actualizada correctamente",
+    "deleted_successfully": "Línea eliminada correctamente"
+  },
 
   "incidence":{
     "created_successfully": "Incidencia creada correctamente",
@@ -82,6 +88,14 @@
       "status_invalid": "El estado de la incidencia no es válido",
       "description_required": "La descripción es obligatoria",
       "delete_successfully": "Incidencia eliminada correctamente"
+    },
+    "line": {
+      "name_required": "El nombre de la línea es obligatorio",
+      "color_invalid": "El color debe ser un hexadecimal válido. Ejemplo: #FF0000"
+
+    },
+    "errors": {
+      "LINE_NOT_FOUND": "Línea no encontrada"
     }
   },
 
@@ -99,6 +113,7 @@
     "BUS_NOT_FOUND": "Bus no encontrado",
     "LICENSE_ALREADY_EXISTS": "Ya existe un bus con esa matrícula",
     "CONDUCTOR_NOT_FOUND": "Conductor no encontrado",
-    "INCIDENCE_NOT_FOUND":"Incidencia no encontrada"
+    "INCIDENCE_NOT_FOUND":"Incidencia no encontrada",
+    "LINE_NOT_FOUND": "Línea no encontrada"
   }
 }

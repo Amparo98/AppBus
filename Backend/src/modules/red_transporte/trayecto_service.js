@@ -1,5 +1,5 @@
 const trayectoRepository = require('./trayecto_repositories.js');
-const lineaRepository = require('../linea/linea_repositories.js');
+const lineaRepository = require('../line/line_repositories.js');
 
 async function verificarLinea(codigo, empresa_id) {
   const linea = await lineaRepository.getLineaById(codigo, empresa_id);
