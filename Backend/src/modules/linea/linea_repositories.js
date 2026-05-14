@@ -1,5 +1,5 @@
 const { pool } = require('../../config/db.js');
-const { generarCodigoLinea } = require('../../utils/generarCodigo.js');
+const { generarCodigoLinea } = require('../../utils/codeDriver.js');
 
 async function getLineaByEmpresa(empresa_id) {
   const { rows } = await pool.query(

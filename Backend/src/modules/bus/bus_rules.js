@@ -9,7 +9,7 @@ const addBusRules = z.object({
     .string()
     .trim()
     .toUpperCase()
-    .regex(licensePlateRegex, 'validation.bus.license_plate_invalid')
+    .regex(licensePlateRegex, 'validation.license_plate.invalid')
 }).strict();
 
 const updateBusRules = z.object({
@@ -17,7 +17,7 @@ const updateBusRules = z.object({
     .string()
     .trim()
     .toUpperCase()
-    .regex(licensePlateRegex, 'validation.bus.license_plate_invalid')
+    .regex(licensePlateRegex, 'validation.license_plate.invalid')
     .optional(),
 
   statu: busStatus.optional()
