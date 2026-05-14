@@ -138,3 +138,10 @@ SELECT id_driver, company_id, full_name, company_email
 FROM driver
 WHERE id_driver = '722a4bfd-66d4-42ed-aab6-d48d9eb7cb84'
 AND company_id = '506870ab-815a-4cce-b60d-f7ccc11a8425';
+
+
+ALTER TABLE incident RENAME TO incidence;
+
+ALTER TABLE incidence RENAME COLUMN id_incident TO id_incidence;
+ALTER TABLE incidence RENAME COLUMN incident_type TO incidence_type;
+ALTER TABLE incidence RENAME COLUMN id_incident TO id_incidence;

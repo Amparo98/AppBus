@@ -37,6 +37,12 @@
     "linkExpires": "Este enlace expirará en 24 horas."
   },
 
+  "incidence":{
+    "created_successfully": "Incidencia creada correctamente",
+    "updated_successfully": "Incidencia actualizada correctamente",
+    "delete_successfully": "Incidencia eliminada correctamente"
+  },
+
   "validation": {
     "email": {
       "invalid": "Email inválido"
@@ -64,6 +70,18 @@
     },
     "token": {
       "required": "La matrícula debe tener 4 números y 3 letras"
+    },
+    "bus": {
+      "id_invalid": "El identificador del bus no es válido"
+    },
+    "route": {
+      "id_invalid": "El identificador del trayecto no es válido"
+    },
+    "incidence": {
+      "type_invalid": "El tipo de incidencia no es válido",
+      "status_invalid": "El estado de la incidencia no es válido",
+      "description_required": "La descripción es obligatoria",
+      "delete_successfully": "Incidencia eliminada correctamente"
     }
   },
 
@@ -80,6 +98,7 @@
     "DRIVER_NOT_FOUND": "Conductor no encontrado",
     "BUS_NOT_FOUND": "Bus no encontrado",
     "LICENSE_ALREADY_EXISTS": "Ya existe un bus con esa matrícula",
-    "CONDUCTOR_NOT_FOUND": "Conductor no encontrado"
+    "CONDUCTOR_NOT_FOUND": "Conductor no encontrado",
+    "INCIDENCE_NOT_FOUND":"Incidencia no encontrada"
   }
 }

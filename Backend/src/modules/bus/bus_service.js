@@ -4,7 +4,7 @@ const {validarTransicion} = require('../../utils/state_transition.js');
 const appError = require('../../utils/appError.js');
 
 async function getAllBuses(company_id) {
-  return await busRepository.getBusByCompany(company_id);
+  return await busRepository.getBusByEmpresa(company_id);
 }
 
 async function getBus(id_bus, company_id) {

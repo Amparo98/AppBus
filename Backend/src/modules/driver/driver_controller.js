@@ -31,9 +31,6 @@ async function getPendingDrivers(req, res, next) {
 
 async function getDriver(req, res, next) {
   try {
-    console.log('PARAM id_driver:', req.params.id_driver);
-    console.log('TOKEN company_id:', req.user.id);
-
     const driver = await driverService.getDriverById(
       req.params.id_driver,
       req.user.id

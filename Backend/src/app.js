@@ -11,7 +11,7 @@ const trayectoRoutes = require('./modules/red_transporte/trayecto_routes.js');
 const driverRoutes = require('./modules/driver/driver_routes.js');
 const busRoutes = require('./modules/bus/bus_routes.js');
 const servicioRoutes = require('./modules/servicio/asignar_servicio_routes.js');
-const incidenciaRoutes = require('./modules/incidencia/incidencia_routes.js');
+const incidenceRoutes = require('./modules/incidence/incidence_routes.js');
 const avisoServicioRoutes = require('./modules/servicio/aviso_servicio_routes.js');
 
 const app = express();
@@ -33,7 +33,7 @@ app.use('/api/lineas', lineaRoutes);
 app.use('/api/driver', driverRoutes);
 app.use('/api/bus', busRoutes); //corregido
 app.use('/api/servicios', servicioRoutes);
-app.use('/api/incidencias', incidenciaRoutes);
+app.use('/api/incidence', incidenceRoutes);
 app.use('/api/avisos', avisoServicioRoutes);
 
 app.use((req, res) => {
