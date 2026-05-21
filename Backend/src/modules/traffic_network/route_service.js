@@ -1,66 +1,49 @@
-const trayectoRepository = require('./route_repositories.js');
-const lineaRepository = require('../line/line_repositories.js');
+const routeRepository = require('./route_repositories.js');
+const lineRepository = require('../line/line_repositories.js');
+const appError = require('../../utils/appError.js');
 
-async function verificarLinea(codigo, empresa_id) {
-  const linea = await lineaRepository.getLineaById(codigo, empresa_id);
-  if (!linea) {
-    const error = new Error('Línea no encontrada o no pertenece a tu empresa');
-    error.status = 404;
-    error.code = 'LINEA_NOT_FOUND';
-    throw error;
-  }
-  return linea; 
+async function checkLine(code, company_id) {
+  const line = await lineRepository.getLineById(code, company_id);
+  if (!line)  throw appError('LINE_NOT_FOUND', 404);
+  return line; 
 }
 
-async function getTrayectos(codigo, empresa_id) {
-  const linea = await verificarLinea(codigo, empresa_id);
-  return await trayectoRepository.getTrayectosByLinea(linea.id_linea);
+async function getAllRoute(code, company_id) {
+  const line = await checkLine(code, company_id);
+  return await routeRepository.getRouteByLine(line.id_line);
 }
 
-async function getTrayecto(id_trayecto, codigo, empresa_id) {
-  const linea = await verificarLinea(codigo, empresa_id);
-  const trayecto = await trayectoRepository.getTrayectoById(id_trayecto, linea.id_linea);
-  if (!trayecto) {
-    const error = new Error('Trayecto no encontrado');
-    error.status = 404;
-    error.code = 'TRAYECTO_NOT_FOUND';
-    throw error;
-  }
-  return trayecto;
+async function getRoute(id_route, code, company_id) {
+  const line = await checkLine(code, company_id);
+  const route = await routeRepository.getRouteById(id_route, line.id_line);
+  if (!route) throw appError('ROUTE_NOT_FOUND', 404);
+  return route;
 }
 
-async function createTrayecto(codigo, empresa_id, data) {
-  const linea = await verificarLinea(codigo, empresa_id);
-  const { origen, destino, duracion_estimada, activo, sentido = true } = data;
-  return await trayectoRepository.createTrayecto(linea.id_linea, origen, destino, duracion_estimada, activo, sentido); 
+async function addRoute(code, company_id, data) {
+  const line = await checkLine(code, company_id);
+  const { origin, destination, estimated_duration, is_active, direction} = data;
+  return await routeRepository.createRoute(line.id_line, origin, destination, estimated_duration, is_active, direction ); 
 }
 
-async function updateTrayecto(id_trayecto, codigo, empresa_id, data) {
-  const linea = await verificarLinea(codigo, empresa_id);
-  const trayecto = await trayectoRepository.updateTrayecto(id_trayecto, linea.id_linea, data);
-  if (!trayecto) {
-    const error = new Error('Trayecto no encontrado');
-    error.status = 404;
-    error.code = 'TRAYECTO_NOT_FOUND';
-    throw error;
-  }
-  return trayecto;
+async function updateRoute(id_route, code, company_id, data) {
+  const line = await checkLine(code, company_id);
+  const route = await routeRepository.updateRoute(id_route, line.id_line, data);
+  if (!route) throw appError('ROUTE_NOT_FOUND', 404);
+  return route;
 }
 
-async function deleteTrayecto(id_trayecto, codigo, empresa_id) {
-  const linea = await verificarLinea(codigo, empresa_id);
-  const trayecto = await trayectoRepository.deleteTrayecto(id_trayecto, linea.id_linea);
-  if (!trayecto) {
-    const error = new Error('Trayecto no encontrado');
-    error.status = 404;
-    error.code = 'TRAYECTO_NOT_FOUND';
-    throw error;
-  }
+async function deleteRoute(id_route, code, company_id) {
+  const line = await checkLine(code, company_id);
+  const route = await routeRepository.deleteRoute(id_route, line.id_line);
+  if (!route) throw appError('ROUTE_NOT_FOUND', 404);
+  return route;
 }
 
 module.exports = { 
-  getTrayectos, 
-  getTrayecto, 
-  createTrayecto, 
-  updateTrayecto, 
-  deleteTrayecto };
+  getAllRoute,
+  getRoute,
+  addRoute,
+  updateRoute,
+  deleteRoute
+};

@@ -1,60 +1,59 @@
-const trayectoService = require('./route_service.js');
+const routeService = require('./route_service.js');
 
-async function verTodasTrayectos(req, res, next) {
+async function getAllRoute(req, res, next) {
   try {
-    const trayectos = await trayectoService.getTrayectos(req.params.linea_id, req.user.id);
+    const route = await routeService.getAllRoute(req.params.line_id, req.user.id);
     res.status(200).json({ 
       ok: true, 
-      trayectos 
+      route 
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function verTrayecto(req, res, next) {
+async function getRoute(req, res, next) {
   try {
-    const trayecto = await trayectoService.getTrayecto(req.params.id_trayecto, req.params.linea_id, req.user.id);
+    const route = await routeService.getRoute(req.params.id_route, req.params.line_id, req.user.id);
     res.status(200).json({ 
       ok: true, 
-      trayecto 
+      route 
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function crearTrayecto(req, res, next) {
+async function addRoute(req, res, next) {
   try {
-    const trayecto = await trayectoService.createTrayecto(req.params.linea_id, req.user.id, req.body); 
+    const route = await routeService.addRoute(req.params.line_id, req.user.id, req.body); 
     res.status(201).json({ 
       ok: true, 
-      trayecto 
+      route 
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function actualizarTrayecto(req, res, next) {
+async function updateRoute(req, res, next) {
   try {
-    const trayecto = await trayectoService.updateTrayecto(req.params.id_trayecto, req.params.linea_id, req.user.id, req.body); 
+    const route = await routeService.updateRoute(req.params.id_route, req.params.line_id, req.user.id, req.body); 
     res.status(200).json({ 
       ok: true, 
-      message: 'Trayecto actualizado correctamente', 
-      trayecto 
+      route 
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function eliminarTrayecto(req, res, next) {
+async function deleteRoute(req, res, next) {
   try {
-    await trayectoService.deleteTrayecto(req.params.id_trayecto, req.params.linea_id, req.user.id); 
+    const route = await routeService.deleteRoute(req.params.id_route, req.params.line_id, req.user.id); 
     res.status(200).json({ 
       ok: true, 
-      message: 'Trayecto eliminado correctamente' 
+      route
     });
   } catch (error) {
     next(error);
@@ -62,9 +61,9 @@ async function eliminarTrayecto(req, res, next) {
 }
 
 module.exports = { 
-  verTodasTrayectos, 
-  verTrayecto, 
-  crearTrayecto, 
-  actualizarTrayecto, 
-  eliminarTrayecto 
+  getAllRoute,
+  getRoute,
+  addRoute,
+  updateRoute,
+  deleteRoute
 };

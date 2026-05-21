@@ -1,60 +1,54 @@
 const { pool } = require('../../config/db');
 
-async function getTrayectosByLinea(linea_id) {
+async function getRouteByLine(line_id) {
   const { rows } = await pool.query(
-    `SELECT id_trayecto, linea_id, origen, destino, duracion_estimada, sentido, activo, created_at
-     FROM trayecto WHERE linea_id = $1 ORDER BY created_at DESC`,
-    [linea_id]
+    `SELECT id_route, line_id, origin, destination, estimated_duration, direction, is_active, created_at
+     FROM routes WHERE line_id = $1 ORDER BY created_at DESC`,
+    [line_id]
   );
   return rows;
 }
 
-async function getTrayectoById(id_trayecto, linea_id) {
+async function getRouteById(id_route, line_id) {
   const { rows } = await pool.query(
-    `SELECT id_trayecto, linea_id, origen, destino, duracion_estimada, sentido, activo, created_at
-     FROM trayecto WHERE id_trayecto = $1 AND linea_id = $2`,
-    [id_trayecto, linea_id]
+    `SELECT id_route, line_id, origin, destination, estimated_duration, direction, is_active, created_at
+     FROM routes WHERE id_route = $1 AND line_id = $2`,
+    [id_route, line_id]
   );
   return rows[0] || null;
 }
 
-async function createTrayecto(linea_id, origen, destino, duracion_estimada, activo, sentido) {
+async function createRoute(line_id, origin, destination, estimated_duration, is_active, direction) {
   const { rows } = await pool.query(
-    `INSERT INTO trayecto (linea_id, origen, destino, duracion_estimada, activo, sentido)
+    `INSERT INTO routes (line_id, origin, destination, estimated_duration, is_active, direction)
      VALUES ($1, $2, $3, $4, $5, $6)
-     RETURNING id_trayecto, origen, destino, duracion_estimada, activo, sentido, created_at`,
-    [linea_id, origen, destino, duracion_estimada, activo, sentido]
+     RETURNING id_route, line_id, origin, destination, estimated_duration, is_active, direction, created_at`,
+    [line_id, origin, destination, estimated_duration, is_active, direction]
   );
   return rows[0];
 }
 
-async function updateTrayecto(id_trayecto, linea_id, fields) {
+async function updateRoute(id_route, line_id, fields) {
   const keys = Object.keys(fields);
   const values = Object.values(fields);
   const setClause = keys.map((key, i) => `${key} = $${i + 1}`).join(', ');
 
   const { rows } = await pool.query(
-    `UPDATE trayecto SET ${setClause}
-     WHERE id_trayecto = $${keys.length + 1} AND linea_id = $${keys.length + 2}
-     RETURNING id_trayecto, linea_id, origen, destino, duracion_estimada, sentido, activo, created_at`,
-    [...values, id_trayecto, linea_id]
+    `UPDATE routes SET ${setClause}
+     WHERE id_route = $${keys.length + 1} AND line_id = $${keys.length + 2}
+     RETURNING id_route, line_id, origin, destination, estimated_duration, direction, is_active, created_at`,
+    [...values, id_route, line_id]
   );
   return rows[0] || null;
 }
 
-async function deleteTrayecto(id_trayecto, linea_id) {
+async function deleteRoute(id_route, line_id) {
   const { rows } = await pool.query(
-    `DELETE FROM trayecto WHERE id_trayecto = $1 AND linea_id = $2
-     RETURNING id_trayecto`,
-    [id_trayecto, linea_id]
+    `DELETE FROM routes WHERE id_route = $1 AND line_id = $2
+     RETURNING id_route`,
+    [id_route, line_id]
   );
   return rows[0] || null;
 }
 
-module.exports = {
-  getTrayectosByLinea,
-  getTrayectoById,
-  createTrayecto,
-  updateTrayecto,
-  deleteTrayecto
-};
+module.exports = { getRouteByLine, getRouteById, createRoute, updateRoute, deleteRoute };

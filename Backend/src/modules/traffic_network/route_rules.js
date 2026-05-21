@@ -1,24 +1,21 @@
 const { z } = require('zod');
 
-const crearTrayectoSchema = z.object({
-  //linea_id: z.string().min(1, 'El id de línea es obligatorio'), // Cambiado a string para coincidir con el tipo de dato en la base de datos
-  // linea_id: z.number().string().positive('El id de línea es obligatorio'),
-  origen: z.string().min(1, 'El origen es obligatorio'),
-  destino: z.string().min(1, 'El destino es obligatorio'),
-  duracion_estimada: z.number().int().positive('La duración debe ser un número positivo en minutos'),
-  activo: z.boolean().default(true),
-  sentido: z.enum(['ida', 'vuelta'], { message: 'El sentido debe ser Ida o Vuelta' }),
-  
+const addRouteRules = z.object({
+  origin: z.string().min(1, 'Origin is required'),
+  destination: z.string().min(1, 'Destination is required'),
+  estimated_duration: z.number().int().positive('Duration must be a positive number in minutes'),
+  is_active: z.boolean().default(true),
+  direction: z.enum(['outbound', 'return'], { message: 'Direction must be outbound or return' })
 });
 
-const actualizarTrayectoSchema = z.object({
-  origen: z.string().min(1).optional(),
-  destino: z.string().min(1).optional(),
-  duracion_estimada: z.number().int().positive().optional(),
-  sentido: z.enum(['Ida', 'Vuelta']).optional(),
-  activo: z.boolean().optional()
+const updateRouteRules = z.object({
+  origin: z.string().min(1).optional(),
+  destination: z.string().min(1).optional(),
+  estimated_duration: z.number().int().positive().optional(),
+  direction: z.enum(['outbound', 'return']).optional(),
+  is_active: z.boolean().optional()
 }).refine(data => Object.keys(data).length > 0, {
-  message: 'Debes enviar al menos un campo para actualizar'
+  message: 'At least one field is required'
 });
 
-module.exports = { crearTrayectoSchema, actualizarTrayectoSchema };
+module.exports = { addRouteRules, updateRouteRules };
