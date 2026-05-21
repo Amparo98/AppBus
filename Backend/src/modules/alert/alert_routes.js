@@ -2,8 +2,8 @@ const express = require('express');
 const authMiddleware = require('../../middlewares/auth.js');
 const roleMiddleware = require('../../middlewares/role.js');
 const validate = require('../../middlewares/validate.js');
-const { crearAvisoSchema, actualizarAvisoSchema } = require('./aviso_servicio_rules.js');
-const avisoController = require('./aviso_servicio_controller.js');
+const { crearAvisoSchema, actualizarAvisoSchema } = require('./alert_rules.js');
+const avisoController = require('./alert_controller.js');
 
 const router = express.Router();
 

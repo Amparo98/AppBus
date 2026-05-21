@@ -2,8 +2,8 @@ const express = require('express');
 const authMiddleware = require('../../middlewares/auth.js');
 const roleMiddleware = require('../../middlewares/role.js');
 const validate = require('../../middlewares/validate.js');
-const { crearTrayectoSchema, actualizarTrayectoSchema } = require('./trayecto_rules.js');
-const trayectoController = require('./trayecto_controller.js');
+const { crearTrayectoSchema, actualizarTrayectoSchema } = require('./route_rules.js');
+const trayectoController = require('./route_controller.js');
 
 const router = express.Router({ mergeParams: true }); // mergeParams para acceder a linea_id
 

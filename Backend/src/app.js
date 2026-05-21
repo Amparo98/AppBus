@@ -7,12 +7,12 @@ const authRoutes = require('./modules/auth/auth_routes.js');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
 const lineRoutes = require('./modules/line/line_routes.js');
-const trayectoRoutes = require('./modules/red_transporte/trayecto_routes.js');
+const trayectoRoutes = require('./modules/traffic_network/route_routes.js');
 const driverRoutes = require('./modules/driver/driver_routes.js');
 const busRoutes = require('./modules/bus/bus_routes.js');
-const servicioRoutes = require('./modules/servicio/asignar_servicio_routes.js');
+const serviceRoutes = require('./modules/services/assign_service_routes.js');
 const incidenceRoutes = require('./modules/incidence/incidence_routes.js');
-const avisoServicioRoutes = require('./modules/servicio/aviso_servicio_routes.js');
+const avisoServicioRoutes = require('./modules/alert/alert_routes.js');
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.use('/api/line/:line_id/trayectos', trayectoRoutes);
 app.use('/api/line', lineRoutes);
 app.use('/api/driver', driverRoutes);
 app.use('/api/bus', busRoutes); //corregido
-app.use('/api/servicios', servicioRoutes);
+app.use('/api/service', serviceRoutes);
 app.use('/api/incidence', incidenceRoutes);
 app.use('/api/avisos', avisoServicioRoutes);
 

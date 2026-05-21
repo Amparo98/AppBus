@@ -1,4 +1,4 @@
-const avisoServicioService = require('./asignar_servicio_service.js');
+const avisoServicioService = require('../services/assign_service_service.js');
 
 async function verAvisos(req, res, next) {
   try {

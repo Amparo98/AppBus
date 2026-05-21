@@ -17,7 +17,7 @@ const TRANSICIONES_INCIDENCIA = {
   'cerrada':    []
 };
 
-function validarTransicion(entidad, estadoActual, estadoNuevo) {
+function validateTransition(entidad, estadoActual, estadoNuevo) {
   const mapa = {
     servicio:   TRANSICIONES_SERVICIO,
     bus:        TRANSICIONES_BUS,
@@ -47,4 +47,4 @@ function validarTransicion(entidad, estadoActual, estadoNuevo) {
   }
 }
 
-module.exports = { validarTransicion };
+module.exports = {validateTransition };

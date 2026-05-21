@@ -48,6 +48,13 @@
     "updated_successfully": "Incidencia actualizada correctamente",
     "delete_successfully": "Incidencia eliminada correctamente"
   },
+  "success": {
+    "created_successfully": "Servicio creado correctamente",
+    "updated_successfully": "Servicio actualizado correctamente",
+    "deleted_successfully": "Servicio eliminado correctamente",
+    "started_successfully": "Servicio iniciado correctamente",
+    "finished_successfully": "Servicio finalizado correctamente"
+  },
 
   "validation": {
     "email": {
@@ -112,8 +119,15 @@
     "DRIVER_NOT_FOUND": "Conductor no encontrado",
     "BUS_NOT_FOUND": "Bus no encontrado",
     "LICENSE_ALREADY_EXISTS": "Ya existe un bus con esa matrícula",
-    "CONDUCTOR_NOT_FOUND": "Conductor no encontrado",
     "INCIDENCE_NOT_FOUND":"Incidencia no encontrada",
-    "LINE_NOT_FOUND": "Línea no encontrada"
+    "LINE_NOT_FOUND": "Línea no encontrada",
+    "SERVICE_NOT_FOUND": "Servicio no encontrado",
+    "ALREADY_STARTED_SERVICE": "El servicio ya ha sido iniciado",
+    "ALREADY_FINISHED_SERVICE": "El servicio ha sido finalizado",
+    "NOT_ACTIVE": "El servicio no esta en curso",
+    "SERVICE_ALREADY_EXISTS":"El conductor ya tiene un servicio asignado en ese turno y fecha",
+    "INVALED_SHIFT": "El turno debe ser de mañana, tarde o noche",
+    "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}"
   }
+
 }

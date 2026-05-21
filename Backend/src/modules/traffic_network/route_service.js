@@ -1,4 +1,4 @@
-const trayectoRepository = require('./trayecto_repositories.js');
+const trayectoRepository = require('./route_repositories.js');
 const lineaRepository = require('../line/line_repositories.js');
 
 async function verificarLinea(codigo, empresa_id) {

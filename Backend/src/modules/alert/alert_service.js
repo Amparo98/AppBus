@@ -1,4 +1,4 @@
-const avisoRepository = require('./aviso_servicio_repositories.js');
+const avisoRepository = require('./alert_repositories.js');
 
 async function getAvisos(empresa_id) {
   return await avisoRepository.getAvisosByEmpresa(empresa_id);

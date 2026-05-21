@@ -1,4 +1,4 @@
-const trayectoService = require('./trayecto_service.js');
+const trayectoService = require('./route_service.js');
 
 async function verTodasTrayectos(req, res, next) {
   try {
