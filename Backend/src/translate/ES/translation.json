@@ -43,11 +43,12 @@
     "deleted_successfully": "Línea eliminada correctamente"
   },
 
-  "incidence":{
+  "incident":{
     "created_successfully": "Incidencia creada correctamente",
     "updated_successfully": "Incidencia actualizada correctamente",
     "delete_successfully": "Incidencia eliminada correctamente"
   },
+  
   "success": {
     "created_successfully": "Servicio creado correctamente",
     "updated_successfully": "Servicio actualizado correctamente",
@@ -90,7 +91,7 @@
     "route": {
       "id_invalid": "El identificador del trayecto no es válido"
     },
-    "incidence": {
+    "incident": {
       "type_invalid": "El tipo de incidencia no es válido",
       "status_invalid": "El estado de la incidencia no es válido",
       "description_required": "La descripción es obligatoria",
@@ -119,7 +120,7 @@
     "DRIVER_NOT_FOUND": "Conductor no encontrado",
     "BUS_NOT_FOUND": "Bus no encontrado",
     "LICENSE_ALREADY_EXISTS": "Ya existe un bus con esa matrícula",
-    "INCIDENCE_NOT_FOUND":"Incidencia no encontrada",
+    "INCIDENT_NOT_FOUND":"Incidencia no encontrada",
     "LINE_NOT_FOUND": "Línea no encontrada",
     "SERVICE_NOT_FOUND": "Servicio no encontrado",
     "ALREADY_STARTED_SERVICE": "El servicio ya ha sido iniciado",
@@ -127,7 +128,8 @@
     "NOT_ACTIVE": "El servicio no esta en curso",
     "SERVICE_ALREADY_EXISTS":"El conductor ya tiene un servicio asignado en ese turno y fecha",
     "INVALED_SHIFT": "El turno debe ser de mañana, tarde o noche",
-    "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}"
+    "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}",
+    "ALERT_NOT_FOUND": "Aviso no encontrado"
   }
 
 }

@@ -1,50 +1,46 @@
-const TRANSICIONES_SERVICIO = {
-  'Programado':  ['En curso', 'Cancelado'],
-  'En curso':    ['Completado', 'Cancelado'],
-  'Completado':  [],
-  'Cancelado':   []
+const SERVICE_TRANSITIONS = {
+  'scheduled':    ['in_progress', 'cancelled'],
+  'in_progress':  ['completed', 'cancelled'],
+  'completed':    [],
+  'cancelled':    []
 };
 
-const TRANSICIONES_BUS = {
-  'Operativo':         ['En mantenimiento', 'Fuera de servicio'],
-  'En mantenimiento':  ['Operativo', 'Fuera de servicio'],
-  'Fuera de servicio': []
+const BUS_TRANSITIONS = {
+  'operational':    ['maintenance', 'out_of_service'],
+  'maintenance':    ['operational', 'out_of_service'],
+  'out_of_service': []
 };
 
-const TRANSICIONES_INCIDENCIA = {
-  'abierta':    ['en_proceso', 'cerrada'],
-  'en_proceso': ['cerrada'],
-  'cerrada':    []
+const INCIDENT_TRANSITIONS = {
+  'open':        ['in_progress', 'resolved'],
+  'in_progress': ['resolved'],
+  'resolved':    []
 };
 
-function validateTransition(entidad, estadoActual, estadoNuevo) {
-  const mapa = {
-    servicio:   TRANSICIONES_SERVICIO,
-    bus:        TRANSICIONES_BUS,
-    incidencia: TRANSICIONES_INCIDENCIA
-  }[entidad];
+function validateTransition(entity, currentStatus, newStatus) {
+  const map = {
+    service:  SERVICE_TRANSITIONS,
+    bus:      BUS_TRANSITIONS,
+    incident: INCIDENT_TRANSITIONS
+  }[entity];
 
-  if (!mapa) {
-    const error = new Error('Entidad no reconocida');
+  if (!map) {
+    const error = new Error('Entity not recognized');
     error.status = 400;
     error.code = 'INVALID_ENTITY';
     throw error;
   }
 
-  const permitidos = mapa[estadoActual] || [];
-  if (!permitidos.includes(estadoNuevo)) {
+  const allowed = map[currentStatus] || [];
+  if (!allowed.includes(newStatus)) {
     const error = new Error(
-      `Transición inválida: no se puede pasar de '${estadoActual}' a '${estadoNuevo}'`
+      `Invalid transition: cannot move from '${currentStatus}' to '${newStatus}'`
     );
     error.status = 400;
     error.code = 'INVALID_STATE_TRANSITION';
-    error.details = [{ 
-      estadoActual, 
-      estadoNuevo, 
-      permitidos 
-    }];
+    error.details = [{ currentStatus, newStatus, allowed }];
     throw error;
   }
 }
 
-module.exports = {validateTransition };
+module.exports = { validateTransition };

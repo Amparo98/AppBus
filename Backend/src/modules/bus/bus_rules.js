@@ -1,6 +1,6 @@
 const { z } = require('zod');
 
-const busStatus = z.enum(['Operativo', 'En mantenimiento', 'Fuera de servicio']);
+const busStatus = z.enum(['operational', 'maintenance', 'out_of_service']);
 
 const licensePlateRegex = /^[0-9]{4}[A-Z]{3}$/;
 

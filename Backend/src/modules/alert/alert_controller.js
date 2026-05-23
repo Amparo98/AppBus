@@ -1,80 +1,74 @@
-const avisoServicioService = require('../services/assign_service_service.js');
+const alertService = require('../alert/alert_service.js');
 
-async function verAvisos(req, res, next) {
+async function getAllAlert(req, res, next) {
   try {
-    const avisos = await avisoServicioService.getAvisos(req.user.id);
+    const alerts = await alertService.getAllAlert(req.user.id);
     res.status(200).json({
       ok: true,
-      avisos
+      alerts
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function verAviso(req, res, next) {
+async function getAlert(req, res, next) {
   try {
-    const aviso = await avisoServicioService.getAviso(req.params.id_aviso, req.user.id);
+    const alert = await alertService.getAlert(req.params.id_alert, req.user.id);
 
     res.status(200).json({
       ok: true,
-      aviso
+      alert
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function verServiciosConductor(req, res, next) {
+async function addAlert(req, res, next) {
   try {
-    // El estado viene como query param opcional: /api/conductor/servicios?estado=En curso
-    const { estado } = req.query;
-    const servicios = await servicioService.getServiciosConductor(req.user.id, estado);
-    res.status(200).json({ ok: true, servicios });
-  } catch (error) {
-    next(error);
-  }
-}
-
-
-async function crearAviso(req, res, next) {
-  try {
-    const aviso = await avisoServicioService.createAviso(req.user.id, req.body);
+    const alert = await alertService.addAlert(req.user.id, req.body);
 
     res.status(201).json({
       ok: true,
-      message: 'Aviso creado correctamente',
-      aviso
+      message: 'Alert created correctly',
+      alert
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function actualizarAviso(req, res, next) {
+async function updateAlert(req, res, next) {
   try {
-    const aviso = await avisoServicioService.updateAviso(req.params.id_aviso, req.user.id, req.body);
+    const alert = await alertService.updateAlert(req.params.id_alert, req.user.id, req.body);
 
     res.status(200).json({
       ok: true,
-      message: 'Aviso actualizado correctamente',
-      aviso
+      message: 'Alert updated correctly',
+      alert
     });
   } catch (error) {
     next(error);
   }
 }
 
-async function eliminarAviso(req, res, next) {
+async function deleteAlert(req, res, next) {
   try {
-    await avisoServicioService.deleteAviso(req.params.id_aviso, req.user.id);
+    await alertService.deleteAlert(req.params.id_alert, req.user.id);
     res.status(200).json({
       ok: true,
-      message: 'Aviso eliminado correctamente'
+      message: 'Alert deleted correctly'
     });
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = { verAvisos, verAviso, verServiciosConductor, crearAviso, actualizarAviso, eliminarAviso };
+module.exports = { 
+  getAllAlert,
+  getAlert,
+  addAlert,
+  updateAlert,
+  deleteAlert
+};

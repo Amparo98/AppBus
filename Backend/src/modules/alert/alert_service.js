@@ -1,44 +1,37 @@
-const avisoRepository = require('./alert_repositories.js');
+const alertRepository = require('./alert_repositories.js');
+const appError = require('../../utils/appError.js');
 
-async function getAvisos(empresa_id) {
-  return await avisoRepository.getAvisosByEmpresa(empresa_id);
+async function getAllAlert(company_id) {
+  return await alertRepository.getAlertByCompany(company_id);
 }
 
-async function getAviso(id_aviso, empresa_id) {
-  const aviso = await avisoRepository.getAvisoById(id_aviso, empresa_id);
-  if (!aviso) {
-    const error = new Error('Aviso no encontrado');
-    error.status = 404;
-    error.code = 'AVISO_NOT_FOUND';
-    throw error;
-  }
-  return aviso;
+async function getAlert(id_alert, company_id) {
+  const alert = await alertRepository.getAlertById(id_alert, company_id);
+  if (!alert) throw appError('ALERT_NOT_FOUND', 404);
+
+  return alert;
 }
 
-async function createAviso(empresa_id, data) {
-  const { trayecto_id, tipo_aviso, titulo, descripcion, fecha_inicio, fecha_fin } = data;
-  return await avisoRepository.createAviso(trayecto_id, tipo_aviso, titulo, descripcion, fecha_inicio, fecha_fin);
+async function addAlert(company_id, data) {
+  const { route_id, alert_type, title, descriptions, starts_date, end_date } = data;
+  return await alertRepository.addAlert(route_id, alert_type, title, descriptions, starts_date, end_date);
 }
 
-async function updateAviso(id_aviso, empresa_id, data) {
-  const aviso = await avisoRepository.updateAviso(id_aviso, empresa_id, data);
-  if (!aviso) {
-    const error = new Error('Aviso no encontrado');
-    error.status = 404;
-    error.code = 'AVISO_NOT_FOUND';
-    throw error;
-  }
-  return aviso;
+async function updateAlert(id_alert, company_id, data) {
+  const alert = await alertRepository.updateAlert(id_alert, company_id, data);
+  if (!alert) throw appError('ALERT_NOT_FOUND', 404);
+  return alert;
 }
 
-async function deleteAviso(id_aviso, empresa_id) {
-  const aviso = await avisoRepository.deleteAviso(id_aviso, empresa_id);
-  if (!aviso) {
-    const error = new Error('Aviso no encontrado');
-    error.status = 404;
-    error.code = 'AVISO_NOT_FOUND';
-    throw error;
-  }
+async function deleteAlert(id_alert, company_id) {
+  const alert = await alertRepository.deleteAlert(id_alert, company_id);
+  if (!alert) throw appError('ALERT_NOT_FOUND', 404);
 }
 
-module.exports = { getAvisos, getAviso, createAviso, updateAviso, deleteAviso };
+module.exports = { 
+  getAllAlert,
+  getAlert,
+  addAlert,
+  updateAlert,
+  deleteAlert
+};

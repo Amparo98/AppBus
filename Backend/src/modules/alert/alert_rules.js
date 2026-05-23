@@ -1,31 +1,33 @@
 const { z } = require('zod');
 
-const crearAvisoSchema = z.object({
-  trayecto_id: z.number().int().positive('El trayecto es obligatorio'),
-  tipo_aviso: z.enum(['obras', 'desvio', 'retraso', 'suspension', 'otra']),
-  titulo: z.string().min(1, 'El título es obligatorio'),
-  descripcion: z.string().min(1, 'La descripción es obligatoria'),
-  fecha_inicio: z.string().datetime('Fecha de inicio inválida'),
-  fecha_fin: z.string().datetime('Fecha de fin inválida').optional()
+const addAlertRules = z.object({
+  route_id: z.string().uuid('Route is required'),
+  alert_type: z.enum(['roadworks', 'detour', 'delay', 'suspension', 'other'], {
+    message: 'Alert type must be roadworks, detour, delay, suspension or other'
+  }),
+  title: z.string().min(1, 'Title is required'),
+  descriptions: z.string().min(1, 'Description is required'),
+  starts_date: z.string().datetime('Invalid start date'),
+  end_date: z.string().datetime('Invalid end date').optional()
 }).refine(data => {
-  if (data.fecha_fin) {
-    return new Date(data.fecha_fin) >= new Date(data.fecha_inicio);
+  if (data.end_date) {
+    return new Date(data.end_date) >= new Date(data.starts_date);
   }
   return true;
 }, {
-  message: 'La fecha de fin debe ser posterior a la fecha de inicio',
-  path: ['fecha_fin']
+  message: 'End date must be after start date',
+  path: ['end_date']
 });
 
-const actualizarAvisoSchema = z.object({
-  tipo_aviso: z.enum(['obras', 'desvio', 'retraso', 'suspension', 'otra']).optional(),
-  titulo: z.string().min(1).optional(),
-  descripcion: z.string().min(1).optional(),
-  fecha_inicio: z.string().datetime().optional(),
-  fecha_fin: z.string().datetime().optional(),
-  activo: z.boolean().optional()
+const updateAlertRules = z.object({
+  alert_type: z.enum(['roadworks', 'detour', 'delay', 'suspension', 'other']).optional(),
+  title: z.string().min(1).optional(),
+  descriptions: z.string().min(1).optional(),
+  starts_date: z.string().datetime().optional(),
+  end_date: z.string().datetime().optional(),
+  is_active: z.boolean().optional()
 }).refine(data => Object.keys(data).length > 0, {
-  message: 'Debes enviar al menos un campo para actualizar'
+  message: 'At least one field is required'
 });
 
-module.exports = { crearAvisoSchema, actualizarAvisoSchema };
+module.exports = { addAlertRules, updateAlertRules };
