@@ -14,9 +14,9 @@ async function testDbConnection() {
 
   try {
     const result = await client.query('SELECT NOW()');
-    console.log('✅ PostgreSQL conectado:', result.rows[0].now);
+    console.log('🛢 PostgreSQL conectado:', result.rows[0].now);
   } catch (error) {
-    console.error('❌ Error conectando con PostgreSQL:', error.message);
+    console.error('🚨 Error conectando con PostgreSQL:', error.message);
     throw error;
   } finally {
     client.release();

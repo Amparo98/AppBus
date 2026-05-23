@@ -1,20 +1,28 @@
+const i18next = require('../config/i18n.js');
+
 function validate(schema) {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
 
     if (!result.success) {
-      const error = new Error('Datos de entrada inválidos');
+      const lang = req.headers['accept-language'] || 'es';
+
+      const error = new Error('VALIDATION_ERROR');
       error.status = 400;
       error.code = 'VALIDATION_ERROR';
-      // Extrae los mensajes de Zod en un array legible
+
       error.details = result.error.issues.map(e => ({
         field: e.path[0],
-        message: e.message
+        message: i18next.t(e.message, {
+          lng: lang,
+          min: e.minimum
+        })
       }));
+
       return next(error);
     }
 
-    req.body = result.data; 
+    req.body = result.data;
     next();
   };
 }

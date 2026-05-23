@@ -268,3 +268,17 @@ Añade headers de seguridad HTTP automáticamente. Protege contra ataques comune
 
 CORS
 Controla qué dominios pueden hacer peticiones a tu API. Sin esto, cualquier web puede llamar a tu backend desde el navegador.
+
+
+
+Empresa crea conductor
+       ↓
+Sistema genera token_activacion (crypto)
+       ↓
+Nodemailer envía email via Gmail SMTP
+       ↓
+Conductor recibe enlace con el token
+       ↓
+Conductor POST /api/conductores/activar con token + nueva contraseña
+       ↓
+Sistema guarda password_hash y marca cuenta_activada = true

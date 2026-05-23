@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./src/server.js",
+    "backend": "node ./src/server.js",
     "dev": "nodemon ./src/server.js"
   },
   "dependencies": {
@@ -14,6 +14,8 @@
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.2",
     "helmet": "^8.1.0",
+    "i18next": "^26.0.10",
+    "i18next-fs-backend": "^2.6.5",
     "jsonwebtoken": "^9.0.3",
     "morgan": "^1.10.1",
     "nodemailer": "^8.0.5",
@@ -22,6 +24,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "i18next-scanner": "^4.6.0",
     "nodemon": "^3.1.14"
   }
 }
