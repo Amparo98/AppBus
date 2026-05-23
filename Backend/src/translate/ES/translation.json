@@ -1,0 +1,135 @@
+{
+  "auth":{
+    "login_success": "Login successful",
+    "invalid_credentials": "Invalid email or password",
+    "required_credentials": "Email and password are required",
+  
+    "client_created": "Client created successfully",
+    "company_created": "Company created successfully",
+    "bus_driver_created": "Bus driver created successfully",
+  
+    "client_login_success": "Client login successful",
+    "company_login_success": "Company login successful",
+    "bus_driver_login_success": "Bus driver login successful",
+  
+    "too_many_attempts": "Too many login attempts, please wait 15 minutes"
+  },
+
+  "bus":{
+    "created_successfully": "Bus creado correctamente",
+    "updated_successfully": "Bus actualizado correctamente",
+    "deleted_successfully": "Bus eliminado correctamente"
+  },
+
+  "driver":{
+    "updated_successfully": "Conductor actualizado correctamente",
+    "created_successfully": "Conductor creado correctamente, se ha enviado un email de activación",
+    "active_account": "Cuenta activada correctamente",
+    "deleted_successfully": "Conductor eliminado correctamente",
+    
+    "activateAccountSubject": "Activa tu cuenta de conductor",
+    "welcomeMessage": "Bienvenido a {{companyName}}, {{name}}!",
+    "driverRegistered": "Tu empresa te ha dado de alta como conductor.",
+    "workerNumber": "Tu número de trabajador es",
+    "accessEmail": "Tu email de acceso es",
+    "setPassword": "Haz clic en el siguiente enlace para establecer tu contraseña:",
+    "activateAccountButton": "Activar cuenta",
+    "linkExpires": "Este enlace expirará en 24 horas."
+  },
+  
+  "line": {
+    "created_successfully": "Línea creada correctamente",
+    "updated_successfully": "Línea actualizada correctamente",
+    "deleted_successfully": "Línea eliminada correctamente"
+  },
+
+  "incident":{
+    "created_successfully": "Incidencia creada correctamente",
+    "updated_successfully": "Incidencia actualizada correctamente",
+    "delete_successfully": "Incidencia eliminada correctamente"
+  },
+  
+  "success": {
+    "created_successfully": "Servicio creado correctamente",
+    "updated_successfully": "Servicio actualizado correctamente",
+    "deleted_successfully": "Servicio eliminado correctamente",
+    "started_successfully": "Servicio iniciado correctamente",
+    "finished_successfully": "Servicio finalizado correctamente"
+  },
+
+  "validation": {
+    "email": {
+      "invalid": "Email inválido"
+    },
+    "password": {
+      "min": "La contraseña debe tener al menos {{min}} caracteres"
+    },
+    "name": {
+      "min": "El nombre debe tener al menos 2 caracteres"
+    },
+    "surname": {
+      "min": "El apellido debe tener al menos 2 caracteres"
+    },
+    "dni":{
+      "min": "El DNI debe tener al menos 9 caracteres"
+    },
+    "phone":{
+      "min":"El teléfono debe tener al menos 9 caracteres"
+    },
+    "license_plate": {
+      "invalid": "La matrícula debe tener 4 números y 3 letras"
+    },
+    "update": {
+      "at_least_one_field": "Debes enviar al menos un campo para actualizar"
+    },
+    "token": {
+      "required": "La matrícula debe tener 4 números y 3 letras"
+    },
+    "bus": {
+      "id_invalid": "El identificador del bus no es válido"
+    },
+    "route": {
+      "id_invalid": "El identificador del trayecto no es válido"
+    },
+    "incident": {
+      "type_invalid": "El tipo de incidencia no es válido",
+      "status_invalid": "El estado de la incidencia no es válido",
+      "description_required": "La descripción es obligatoria",
+      "delete_successfully": "Incidencia eliminada correctamente"
+    },
+    "line": {
+      "name_required": "El nombre de la línea es obligatorio",
+      "color_invalid": "El color debe ser un hexadecimal válido. Ejemplo: #FF0000"
+
+    },
+    "errors": {
+      "LINE_NOT_FOUND": "Línea no encontrada"
+    }
+  },
+
+  "errors": {
+    "INTERNAL_ERROR": "Error interno del servidor",
+    "INVALID_CREDENTIALS": "Credenciales inválidas",
+    "ACCOUNT_NOT_ACTIVATED": "Debes activar tu cuenta primero, revisa tu email",
+    "ACCOUNT_DISABLED": "Tu cuenta está deshabilitada, contacta con tu empresa",
+    "EMAIL_ALREADY_EXISTS": "El email ya está registrado",
+    "REQUIRED_FIELDS": "Todos los campos son obligatorios",
+    "VALIDATION_ERROR": "Datos de entrada inválidos",
+    "INVALID_TOKEN": "Token inválido o expirado",
+    "ALREADY_ACTIVATED": "La cuenta ya está activada",
+    "DRIVER_NOT_FOUND": "Conductor no encontrado",
+    "BUS_NOT_FOUND": "Bus no encontrado",
+    "LICENSE_ALREADY_EXISTS": "Ya existe un bus con esa matrícula",
+    "INCIDENT_NOT_FOUND":"Incidencia no encontrada",
+    "LINE_NOT_FOUND": "Línea no encontrada",
+    "SERVICE_NOT_FOUND": "Servicio no encontrado",
+    "ALREADY_STARTED_SERVICE": "El servicio ya ha sido iniciado",
+    "ALREADY_FINISHED_SERVICE": "El servicio ha sido finalizado",
+    "NOT_ACTIVE": "El servicio no esta en curso",
+    "SERVICE_ALREADY_EXISTS":"El conductor ya tiene un servicio asignado en ese turno y fecha",
+    "INVALED_SHIFT": "El turno debe ser de mañana, tarde o noche",
+    "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}",
+    "ALERT_NOT_FOUND": "Aviso no encontrado"
+  }
+
+}
