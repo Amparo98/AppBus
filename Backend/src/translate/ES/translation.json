@@ -129,7 +129,8 @@
     "SERVICE_ALREADY_EXISTS":"El conductor ya tiene un servicio asignado en ese turno y fecha",
     "INVALED_SHIFT": "El turno debe ser de mañana, tarde o noche",
     "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}",
-    "ALERT_NOT_FOUND": "Aviso no encontrado"
+    "ALERT_NOT_FOUND": "Aviso no encontrado",
+    "STOP_NOT_FOUND": "Parada no encontrada"
   }
 
 }

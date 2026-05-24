@@ -13,7 +13,7 @@ const busRoutes = require('./modules/bus/bus_routes.js');
 const serviceRoutes = require('./modules/services/assign_service_routes.js');
 const incidentRoutes = require('./modules/incident/incident_routes.js');
 const alertServicioRoutes = require('./modules/alert/alert_routes.js');
-const stopService = require('./modules/traffic_network/stop_routes.js');
+const stopRoutes = require('./modules/traffic_network/stop_routes.js');
 
 const app = express();
 
