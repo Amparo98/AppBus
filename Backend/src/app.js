@@ -13,6 +13,7 @@ const busRoutes = require('./modules/bus/bus_routes.js');
 const serviceRoutes = require('./modules/services/assign_service_routes.js');
 const incidentRoutes = require('./modules/incident/incident_routes.js');
 const alertServicioRoutes = require('./modules/alert/alert_routes.js');
+const stopService = require('./modules/traffic_network/stop_routes.js');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use('/api/bus', busRoutes); //corregido
 app.use('/api/service', serviceRoutes);
 app.use('/api/incident', incidentRoutes);
 app.use('/api/alert', alertServicioRoutes);
+app.use('/api/stop', stopRoutes);
 
 app.use((req, res) => {
   res.status(404).json({
