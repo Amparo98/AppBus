@@ -57,6 +57,11 @@
     "finished_successfully": "Servicio finalizado correctamente"
   },
 
+  "shift_log":{
+    "started": "Jornada iniciada correctamente",
+    "ended": "Jornada finalizada correctamente"
+},
+
   "validation": {
     "email": {
       "invalid": "Email inválido"
@@ -130,7 +135,10 @@
     "INVALED_SHIFT": "El turno debe ser de mañana, tarde o noche",
     "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}",
     "ALERT_NOT_FOUND": "Aviso no encontrado",
-    "STOP_NOT_FOUND": "Parada no encontrada"
+    "STOP_NOT_FOUND": "Parada no encontrada",
+    "SHIFT_LOG_NOT_FOUND": "Fichaje no encontrada",
+    "SHIFT_ALREADY_STARTED": "El conductor ha iniciado el fichado",
+    "SHIFT_NOT_STARTED": "El conductor no ha iniciado el fichado"
   }
 
 }
