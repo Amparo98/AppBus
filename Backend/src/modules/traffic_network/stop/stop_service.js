@@ -1,5 +1,5 @@
 const stopRepository = require('./stop_repository.js');
-const appError = require('../../utils/appError.js');
+const appError = require('../../../utils/appError.js');
 
 // Fórmula Haversine para calcular distancia entre dos puntos GPS
 function haversine(lat1, lon1, lat2, lon2) {

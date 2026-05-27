@@ -1,7 +1,7 @@
 const express = require('express');
-const authMiddleware = require('../../middlewares/auth.js');
-const roleMiddleware = require('../../middlewares/role.js');
-const validate = require('../../middlewares/validate.js');
+const authMiddleware = require('../../../middlewares/auth.js');
+const roleMiddleware = require('../../../middlewares/role.js');
+const validate = require('../../../middlewares/validate.js');
 const { addStopRules, updateStopRules, addRouteStopRules } = require('./stop_rules.js');
 const stopController = require('./stop_controller.js');
 
