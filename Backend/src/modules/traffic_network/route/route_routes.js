@@ -7,12 +7,15 @@ const routeController = require('./route_controller.js');
 
 const router = express.Router({ mergeParams: true }); // mergeParams para acceder a linea_id
 
-router.use(authMiddleware, roleMiddleware('Company'));
+ //redes privadas para la empresa
+router.get('/', authMiddleware, roleMiddleware('Company'), validate(addRouteRules), routeController.getAllRoute);
+router.get('/:id_route', authMiddleware, roleMiddleware('Company'), validate(addRouteRules), routeController.getRoute);
+router.post('/', authMiddleware, roleMiddleware('Company'), validate(addRouteRules), validate(addRouteRules),      routeController.addRoute);
+router.put('/:id_route', authMiddleware, roleMiddleware('Company'), validate(addRouteRules), validate(updateRouteRules), routeController.updateRoute);
+router.delete('/:id_route', authMiddleware, roleMiddleware('Company'), validate(addRouteRules), routeController.deleteRoute);
 
-router.get('/',                routeController.getAllRoute);
-router.get('/:id_route',    routeController.getRoute);
-router.post('/',               validate(addRouteRules),      routeController.addRoute);
-router.put('/:id_route',    validate(updateRouteRules), routeController.updateRoute);
-router.delete('/:id_route', routeController.deleteRoute);
 
+//Elementos publicos para usuarios no reqistrados
+router.get('/', routeController.getAllRoute);
+router.get('/:id_route', routeController.getRoute);
 module.exports = router;
