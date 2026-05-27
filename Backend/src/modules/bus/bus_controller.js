@@ -76,10 +76,21 @@ async function deleteBus(req, res, next) {
   }
 }
 
+async function getActiveBusesByCompany(req, res, next) {
+  try {
+    const positions = await positionService.getActiveBusesByCompany(req.user.id);
+    res.status(200).json({ ok: true, positions });
+  } catch (error) {
+    next(error);
+  } 
+}
+
+
 module.exports = {
   getAllBuses,
   getBus,
   addBus,
   updateBus,
-  deleteBus
+  deleteBus, 
+  getActiveBusesByCompany
 }

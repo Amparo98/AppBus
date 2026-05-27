@@ -41,10 +41,15 @@ async function deleteBus(id_bus, company_id) {
   return bus;
 }
 
+async function getActiveBusesByCompany(company_id) {
+  return await positionRepository.getActiveBusesByCompany(company_id);
+}
+
 module.exports = { 
   getAllBuses, 
   getBus, 
   addBus, 
   updateBus, 
-  deleteBus 
+  deleteBus,
+  getActiveBusesByCompany
 };

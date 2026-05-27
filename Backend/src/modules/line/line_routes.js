@@ -19,5 +19,6 @@ router.delete('/:code', lineController.deleteLine);//correcto
 //Rutas publicas para que el usuarios no registrados pueda verlas pero no modificarlas
 router.get('/', lineController.getAllLine);
 router.get('/:code', lineController.getLine);
+router.get('/active', lineController.getActiveLinesPublic);
 
 module.exports = router;

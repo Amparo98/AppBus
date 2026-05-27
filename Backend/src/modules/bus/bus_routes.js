@@ -11,8 +11,10 @@ router.use(authMiddleware, roleMiddleware('Company'));
 
 router.get('/',          busController.getAllBuses);
 router.get('/:id_bus',   busController.getBus);
+router.get('/active',    busController.getActiveBusesByCompany);
 router.post('/',         validate(addBusRules),      busController.addBus);
 router.put('/:id_bus',   validate(updateBusRules), busController.updateBus);
 router.delete('/:id_bus', busController.deleteBus);
+
 
 module.exports = router;
