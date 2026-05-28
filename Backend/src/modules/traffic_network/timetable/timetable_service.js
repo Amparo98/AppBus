@@ -1,5 +1,5 @@
 const timeRepository = require('./timetable_repositories.js');
-const appError = require('../../utils/appError.js');
+const appError = require('../../../utils/appError.js');
 
 async function getTimetableByRoute(route_id) {
   const timetable = await timeRepository.getTimetableByRoute(route_id);

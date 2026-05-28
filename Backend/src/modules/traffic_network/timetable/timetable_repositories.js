@@ -1,4 +1,4 @@
-const { pool } = require('../../config/db.js');
+const { pool } = require('../../../config/db');
 
 async function getTimetableByRoute(route_id) {
   const { rows } = await pool.query(
