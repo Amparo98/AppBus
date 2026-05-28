@@ -139,7 +139,8 @@
     "SHIFT_LOG_NOT_FOUND": "Fichaje no encontrada",
     "SHIFT_ALREADY_STARTED": "El conductor ha iniciado el fichado",
     "SHIFT_NOT_STARTED": "El conductor no ha iniciado el fichado",
-    "POSITION_NOT_FOUND": "Posicion indefinida"
+    "POSITION_NOT_FOUND": "Posicion indefinida",
+    "TIME_TABLE_NOT_FOUND": "Horario no encontrado"
   }
 
 }

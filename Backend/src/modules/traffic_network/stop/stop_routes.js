@@ -21,9 +21,11 @@ router.get('/:id_stop/arrival/:id_route',    stopController.getArrivalTime);
 
 //Privado
 // Gestión de paradas — solo empresa
-router.post('/',         authMiddleware, roleMiddleware('company'), validate(addStopRules),    stopController.addStop);
-router.put('/:id_stop',  authMiddleware, roleMiddleware('company'), validate(updateStopRules), stopController.updateStop);
-router.delete('/:id_stop', authMiddleware, roleMiddleware('company'), stopController.deleteStop);
+router.get('/', authMiddleware, roleMiddleware('Company'), validate(addStopRules), stopController.getAllStop);
+router.get('/:id_stop', authMiddleware, roleMiddleware('Company'), validate(addStopRules), stopController.getStop);
+router.post('/',         authMiddleware, roleMiddleware('Company'), validate(addStopRules),    stopController.addStop);
+router.put('/:id_stop',  authMiddleware, roleMiddleware('Company'), validate(updateStopRules), stopController.updateStop);
+router.delete('/:id_stop', authMiddleware, roleMiddleware('Company'), stopController.deleteStop);
 
 // Gestión de paradas en trayecto — solo empresa
 router.post('/route/:id_route',                    authMiddleware, roleMiddleware('company'), validate(addRouteStopRules), stopController.addStopToRoute);
