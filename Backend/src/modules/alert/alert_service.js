@@ -28,10 +28,15 @@ async function deleteAlert(id_alert, company_id) {
   if (!alert) throw appError('ALERT_NOT_FOUND', 404);
 }
 
+async function getActiveAlerts() {
+  return await alertRepository.getActiveAlerts();
+}
+
 module.exports = { 
   getAllAlert,
   getAlert,
   addAlert,
   updateAlert,
-  deleteAlert
+  deleteAlert,
+  getActiveAlerts
 };
