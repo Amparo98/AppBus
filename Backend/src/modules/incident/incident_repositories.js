@@ -77,4 +77,24 @@ async function deleteIncident(id_incident, company_id) {
   return rows[0] || null;
 }
 
-module.exports = { getIncidentByCompany, getIncidentById, addIncident, updateIncident, deleteIncident };
+async function getServiceByIdAndDriver(service_id, driver_id) {
+  const { rows } = await pool.query(
+    `SELECT s.id_service, s.status, s.line_id,
+            r.id_route
+     FROM services s
+     LEFT JOIN service_routes sr ON sr.service_id = s.id_service
+     LEFT JOIN routes r ON r.id_route = sr.route_id
+     WHERE s.id_service = $1 AND s.driver_id = $2`,
+    [service_id, driver_id]
+  );
+  return rows[0] || null;
+}
+
+module.exports = { 
+  getIncidentByCompany, 
+  getIncidentById, 
+  addIncident, 
+  updateIncident, 
+  deleteIncident,
+  getServiceByIdAndDriver
+};
