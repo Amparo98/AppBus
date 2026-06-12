@@ -8,27 +8,18 @@ const stopController = require('./stop_controller.js');
 const router = express.Router();
 
 //Publico
-
-// Rutas públicas — cualquiera puede ver paradas
-router.get('/',          stopController.getAllStop);
-router.get('/:id_stop',  stopController.getStop);
-
-// Paradas de un trayecto — pública
+router.get('/',                              stopController.getAllStop);
 router.get('/route/:id_route',               stopController.getStopsByRoute);
-
-// Tiempo estimado de llegada — pública
 router.get('/:id_stop/arrival/:id_route',    stopController.getArrivalTime);
+router.get('/:id_stop',                      stopController.getStop);
+
 
 //Privado
-// Gestión de paradas — solo empresa
-router.get('/', authMiddleware, roleMiddleware('Company'), validate(addStopRules), stopController.getAllStop);
-router.get('/:id_stop', authMiddleware, roleMiddleware('Company'), validate(addStopRules), stopController.getStop);
-router.post('/',         authMiddleware, roleMiddleware('Company'), validate(addStopRules),    stopController.addStop);
-router.put('/:id_stop',  authMiddleware, roleMiddleware('Company'), validate(updateStopRules), stopController.updateStop);
-router.delete('/:id_stop', authMiddleware, roleMiddleware('Company'), stopController.deleteStop);
-
-// Gestión de paradas en trayecto — solo empresa
-router.post('/route/:id_route',                    authMiddleware, roleMiddleware('company'), validate(addRouteStopRules), stopController.addStopToRoute);
-router.delete('/route/stop/:id_route_stop',        authMiddleware, roleMiddleware('company'), stopController.removeStopFromRoute);
+router.use(authMiddleware, roleMiddleware('Company'));
+router.post('/',                             validate(addStopRules),       stopController.addStop);
+router.put('/:id_stop',                      validate(updateStopRules),    stopController.updateStop);
+router.delete('/:id_stop',                                                 stopController.deleteStop);
+router.post('/route/:id_route',              validate(addRouteStopRules),  stopController.addStopToRoute);
+router.delete('/route/stop/:id_route_stop',                                stopController.removeStopFromRoute);
 
 module.exports = router;
