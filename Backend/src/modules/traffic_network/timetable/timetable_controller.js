@@ -2,7 +2,8 @@ const timeService = require('./timetable_service.js');
 
 async function getTimetableByRoute(req, res, next) {
   try {
-    const timetable = await timeService.getTimetableByRoute(req.params.id_route);
+    const { day_type } = req.query;
+    const timetable = await timeService.getTimetableByRoute(req.params.id_route, day_type);
     res.status(200).json({ ok: true, timetable });
   } catch (error) {
     next(error);
@@ -11,7 +12,8 @@ async function getTimetableByRoute(req, res, next) {
 
 async function getTimetableByStop(req, res, next) {
   try {
-    const timetable = await timeService.getTimetableByStop(req.params.id_stop);
+    const { day_type } = req.query;
+    const timetable = await timeService.getTimetableByStop(req.params.id_stop, day_type);
     res.status(200).json({ ok: true, timetable });
   } catch (error) {
     next(error);

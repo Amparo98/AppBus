@@ -1,14 +1,14 @@
 const timeRepository = require('./timetable_repositories.js');
 const appError = require('../../../utils/appError.js');
 
-async function getTimetableByRoute(route_id) {
-  const timetable = await timeRepository.getTimetableByRoute(route_id);
+async function getTimetableByRoute(route_id, day_type) {
+  const timetable = await timeRepository.getTimetableByRoute(route_id, day_type);
   if (!timetable || timetable.length === 0) throw appError('TIMETABLE_NOT_FOUND', 404);
   return timetable;
 }
 
-async function getTimetableByStop(stop_id) {
-  const timetable = await timeRepository.getTimetableByStop(stop_id);
+async function getTimetableByStop(stop_id, day_type) {
+  const timetable = await timeRepository.getTimetableByStop(stop_id, day_type);
   if (!timetable || timetable.length === 0) throw appError('TIMETABLE_NOT_FOUND', 404);
   return timetable;
 }

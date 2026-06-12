@@ -12,7 +12,7 @@ router.get('/route/:id_route', timeController.getTimetableByRoute);
 router.get('/stop/:id_stop',   timeController.getTimetableByStop);
 
 // Rutas empresa — gestión de horarios
-router.post('/', authMiddleware,  roleMiddleware('company'),  validate(addTimetableRules),  timeController.addTimetable);
+router.post('/', authMiddleware,  roleMiddleware('Company'),  validate(addTimetableRules),  timeController.addTimetable);
 router.delete('/:id_timetable',  authMiddleware,  roleMiddleware('company'),  timeController.deleteTimetable);
 
 module.exports = router;
