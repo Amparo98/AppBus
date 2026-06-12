@@ -42,7 +42,11 @@ async function deleteBus(id_bus, company_id) {
 }
 
 async function getActiveBusesByCompany(company_id) {
-  return await positionRepository.getActiveBusesByCompany(company_id);
+  return await busRepository.getActiveBusesByCompany(company_id); // busRepository
+}
+
+async function getActiveBusByClient() {
+  return await busRepository.getActiveBusByClient();
 }
 
 module.exports = { 
@@ -51,5 +55,6 @@ module.exports = {
   addBus, 
   updateBus, 
   deleteBus,
-  getActiveBusesByCompany
+  getActiveBusesByCompany,
+  getActiveBusByClient
 };

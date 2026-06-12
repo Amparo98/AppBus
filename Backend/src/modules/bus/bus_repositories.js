@@ -89,10 +89,28 @@ async function getActiveBusesByCompany(company_id) {
      JOIN driver d ON d.id_driver = s.driver_id
      LEFT JOIN bus_position bp ON bp.bus_id = b.id_bus
      WHERE s.status = 'in_progress'
-     AND b.status = 'operational'
+     AND b.statu = 'operational'
      AND b.company_id = $1
      ORDER BY b.id_bus, bp.dates DESC`,
     [company_id]
+  );
+  return rows;
+}
+async function getActiveBusByClient() {
+  const { rows } = await pool.query(
+    `SELECT DISTINCT ON (b.id_bus)
+            b.id_bus, b.license_plate,
+            l.code AS line_code, l.name_line, l.color,
+            ST_Y(bp.location_bus::geometry) AS latitude,
+            ST_X(bp.location_bus::geometry) AS longitude,
+            bp.dates AS last_update
+     FROM services s
+     JOIN bus b ON b.id_bus = s.bus_id
+     JOIN line l ON l.id_line = s.line_id
+     LEFT JOIN bus_position bp ON bp.bus_id = b.id_bus
+     WHERE s.status = 'in_progress'
+     AND b.statu = 'operational'
+     ORDER BY b.id_bus, bp.dates DESC`
   );
   return rows;
 }
@@ -106,6 +124,7 @@ module.exports = {
     deleteBus, 
     existsBusByLicensePlate,
     updateLastModified,
-    getActiveBusesByCompany
+    getActiveBusesByCompany,
+    getActiveBusByClient
     
 };
