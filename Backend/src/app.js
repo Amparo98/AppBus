@@ -18,6 +18,7 @@ const shiftRoutes = require ('./modules/driver/shift_log/shift_log_routes.js');
 const positionRoutes = require ('./modules/traffic_network/position/position_routes.js');
 const timeTableRoute = require ('./modules/traffic_network/timetable/timetable_routes.js');
 const favoriteRoute = require ('./modules/favorite/favorite_routes.js')
+const profileClientRoute = require ('./modules/client/client_routes.js')
 
 const app = express();
 
@@ -43,8 +44,9 @@ app.use('/api/alert', alertServicioRoutes);
 app.use('/api/stop', stopRoutes);
 app.use('/api/shift', shiftRoutes);
 app.use('/api/position', positionRoutes);
-app.use('/api/timetable', timeTableRoute)
-app.use ('/api/favorite', favoriteRoute)
+app.use('/api/timetable', timeTableRoute);
+app.use ('/api/favorite', favoriteRoute);
+app.use ('/api/profileClient', profileClientRoute);
 
 app.use((req, res) => {
   res.status(404).json({
