@@ -115,22 +115,24 @@ async function removeStopFromRoute(id_route_stop) {
 }
 
 // Tiempo estimado de llegada (Haversine)
-async function getBusPositionByRoute(route_id) {
+async function getBusPositionByRoute(route_id, latitude, longitude) {
   const { rows } = await pool.query(
-    `SELECT pb.bus_id,
-            ST_Y(pb.locations::geometry) AS latitude,
-            ST_X(pb.locations::geometry) AS longitude,
-            pb.fecha
-     FROM bus_position pb
-     JOIN services s ON s.bus_id = pb.bus_id
+    `SELECT bp.bus_id,
+            ST_Y(bp.location_bus::geometry) AS latitude,
+            ST_X(bp.location_bus::geometry) AS longitude,
+            bp.dates,
+            ST_Distance(
+              bp.location_bus::geography,
+              ST_SetSRID(ST_MakePoint($2, $3), 4326)::geography
+            ) AS distance_meters
+     FROM bus_position bp
+     JOIN services s ON s.bus_id = bp.bus_id
+     JOIN routes r ON r.line_id = s.line_id
      WHERE s.status = 'in_progress'
-     AND EXISTS (
-       SELECT 1 FROM route_stop rs
-       WHERE rs.route_id = $1
-     )
-     ORDER BY pb.fecha DESC
+     AND r.id_route = $1
+     ORDER BY distance_meters ASC
      LIMIT 1`,
-    [route_id]
+    [route_id, longitude, latitude]
   );
   return rows[0] || null;
 }

@@ -7,12 +7,17 @@ const busController = require('./bus_controller.js');
 
 const router = express.Router();
 
+//Para clientes registrados
+router.get('/active', authMiddleware, roleMiddleware('Client'), busController.getActiveBusByClient);
+
+//Para la empresa
 router.use(authMiddleware, roleMiddleware('Company'));
 
+router.get('/active',    busController.getActiveBusesByCompany); // antes que /:id_bus
 router.get('/',          busController.getAllBuses);
 router.get('/:id_bus',   busController.getBus);
-router.post('/',         validate(addBusRules),      busController.addBus);
+router.post('/',         validate(addBusRules),    busController.addBus);
 router.put('/:id_bus',   validate(updateBusRules), busController.updateBus);
-router.delete('/:id_bus', busController.deleteBus);
+router.delete('/:id_bus',                          busController.deleteBus);
 
 module.exports = router;
