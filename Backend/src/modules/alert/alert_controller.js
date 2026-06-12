@@ -65,20 +65,10 @@ async function deleteAlert(req, res, next) {
   }
 }
 
-async function getActiveAlerts(req, res, next) {
-  try {
-    const alerts = await alertService.getActiveAlerts();
-    res.status(200).json({ ok: true, alerts });
-  } catch (error) {
-    next(error);
-  }
-}
-
 module.exports = { 
   getAllAlert,
   getAlert,
   addAlert,
   updateAlert,
-  deleteAlert,
-  getActiveAlerts
+  deleteAlert
 };

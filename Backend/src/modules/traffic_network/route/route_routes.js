@@ -7,15 +7,12 @@ const routeController = require('./route_controller.js');
 
 const router = express.Router({ mergeParams: true }); // mergeParams para acceder a linea_id
 
-// Lectura — público
-router.get('/',           routeController.getAllRoute);
-router.get('/:id_route',  routeController.getRoute);
-
- //redes privadas para la empresa
-// Escritura — solo Company
 router.use(authMiddleware, roleMiddleware('Company'));
-router.post('/',          validate(addRouteRules),    routeController.addRoute);
-router.put('/:id_route',  validate(updateRouteRules), routeController.updateRoute);
-router.delete('/:id_route',                           routeController.deleteRoute);
+
+router.get('/',                routeController.getAllRoute);
+router.get('/:id_route',    routeController.getRoute);
+router.post('/',               validate(addRouteRules),      routeController.addRoute);
+router.put('/:id_route',    validate(updateRouteRules), routeController.updateRoute);
+router.delete('/:id_route', routeController.deleteRoute);
 
 module.exports = router;

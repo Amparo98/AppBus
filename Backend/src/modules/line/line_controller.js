@@ -75,21 +75,4 @@ async function deleteLine(req, res, next) {
   }
 }
 
-async function getActiveLinesPublic(req, res, next) {
-    try {
-    const positions = await positionService.getActiveLinesPublic();
-    res.status(200).json({ ok: true, positions });
-  } catch (error) {
-    next(error);
-  } 
-}
-
-
-module.exports = {
-  getAllLine, 
-  getLine, 
-  addLine, 
-  updateLine,
-  deleteLine,
-  getActiveLinesPublic
-};
+module.exports = {getAllLine, getLine, addLine, updateLine,deleteLine };

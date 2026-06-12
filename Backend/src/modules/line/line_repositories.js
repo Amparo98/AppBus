@@ -53,32 +53,4 @@ async function deleteLine(code, company_id) {
   return rows[0] || null;
 }
 
-
-// Para el usuario — líneas activas sin datos internos
-async function getActiveLinesPublic() {
-  const { rows } = await pool.query(
-    `SELECT DISTINCT ON (l.id_line)
-            l.id_line, l.code, l.name_line, l.color,
-            ST_Y(bp.location_bus::geometry) AS latitude,
-            ST_X(bp.location_bus::geometry) AS longitude,
-            bp.dates AS last_update
-     FROM services s
-     JOIN line l ON l.id_line = s.line_id
-     JOIN bus b ON b.id_bus = s.bus_id
-     LEFT JOIN bus_position bp ON bp.bus_id = b.id_bus
-     WHERE s.status = 'in_progress'
-     AND b.status = 'operational'
-     ORDER BY l.id_line, bp.dates DESC`
-  );
-  return rows;
-}
-
-module.exports = {
-  getLineByCompany, 
-  getLineById, 
-  addLine, 
-  updateLine, 
-  deleteLine,
-  getActiveLinesPublic
-
-};
+module.exports = {getLineByCompany, getLineById, addLine, updateLine, deleteLine};

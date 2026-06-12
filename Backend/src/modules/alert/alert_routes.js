@@ -7,9 +7,6 @@ const alertController = require('./alert_controller.js');
 
 const router = express.Router();
 
-//purblica para los clientes
-router.get('/active', authMiddleware, roleMiddleware('Client'), alertController.getActiveAlerts);
-
 router.use(authMiddleware, roleMiddleware('Company'));
 
 router.get('/',            alertController.getAllAlert);

@@ -29,15 +29,4 @@ async function deleteLine(code, company_id) {
   if (!line) throw appError('LINE_NOT_FOUND', 404);
 }
 
-async function getActiveLinesPublic() {
-  return await positionRepository.getActiveLinesPublic();
-}
-
-module.exports = { 
-  getAllLine, 
-  getLine, 
-  addLine, 
-  updateLine, 
-  deleteLine,
-  getActiveLinesPublic
-};
+module.exports = { getAllLine, getLine, addLine, updateLine, deleteLine};

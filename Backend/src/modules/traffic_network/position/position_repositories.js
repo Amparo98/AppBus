@@ -48,5 +48,5 @@ async function getLastPositionsByCompany(company_id) {
 module.exports = { 
     savePosition, 
     getLastPosition, 
-    getLastPositionsByCompany,
+    getLastPositionsByCompany 
 };

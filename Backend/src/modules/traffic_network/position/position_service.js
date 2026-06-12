@@ -15,9 +15,8 @@ async function getLastPositionsByCompany(company_id) {
   return await positionRepository.getLastPositionsByCompany(company_id);
 }
 
-
 module.exports = { 
   savePosition, 
   getLastPosition, 
-  getLastPositionsByCompany,
+  getLastPositionsByCompany 
 };

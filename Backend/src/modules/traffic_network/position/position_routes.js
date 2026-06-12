@@ -11,8 +11,7 @@ router.post('/',  authMiddleware,  roleMiddleware('Driver'),  validate(savePosit
 
 // Empresa consulta posiciones
 router.get('/',  authMiddleware,  roleMiddleware('Company'),  positionController.getLastPositionsByCompany);
-router.get('/:id_bus',  authMiddleware,  roleMiddleware('Company'),  positionController.getLastPosition);
 
-
+router.get('/:id_bus',  authMiddleware,  roleMiddleware('company'),  positionController.getLastPosition);
 
 module.exports = router;

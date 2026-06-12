@@ -1,4 +1,4 @@
-const stopRepository = require('./stop_repositories.js');
+const stopRepository = require('./stop_repository.js');
 const appError = require('../../../utils/appError.js');
 
 // Fórmula Haversine para calcular distancia entre dos puntos GPS
@@ -63,15 +63,12 @@ async function removeStopFromRoute(id_route_stop) {
 
 // Tiempo estimado de llegada usando Haversine
 async function getArrivalTime(id_stop, route_id) {
+  // Obtener coordenadas de la parada
   const stop = await stopRepository.getStopById(id_stop);
   if (!stop) throw appError('STOP_NOT_FOUND', 404);
 
-  const busPosition = await stopRepository.getBusPositionByRoute(
-    route_id, 
-    stop.latitude,   // pasamos coordenadas para ordenar por distancia
-    stop.longitude
-  );
-
+  // Obtener posición actual del bus en ese trayecto
+  const busPosition = await stopRepository.getBusPositionByRoute(route_id);
   if (!busPosition) {
     return { 
       estimated_minutes: null, 
@@ -79,17 +76,19 @@ async function getArrivalTime(id_stop, route_id) {
     };
   }
 
+  // Calcular distancia con Haversine
   const distanceKm = haversine(
     busPosition.latitude, busPosition.longitude,
     stop.latitude, stop.longitude
   );
 
+  // Estimar tiempo con velocidad media urbana de 30 km/h
   const estimatedMinutes = Math.round((distanceKm / 30) * 60);
 
   return {
     estimated_minutes: estimatedMinutes,
     distance_km: Math.round(distanceKm * 100) / 100,
-    bus_last_update: busPosition.dates
+    bus_last_update: busPosition.fecha
   };
 }
 
