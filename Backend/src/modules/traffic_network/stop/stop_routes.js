@@ -13,6 +13,9 @@ router.get('/route/:id_route',               stopController.getStopsByRoute);
 router.get('/:id_stop/arrival/:id_route',    stopController.getArrivalTime);
 router.get('/:id_stop',                      stopController.getStop);
 
+//paradas cercanas
+router.get('/nearby', stopController.getNearbyStops);
+
 
 //Privado
 router.use(authMiddleware, roleMiddleware('Company'));

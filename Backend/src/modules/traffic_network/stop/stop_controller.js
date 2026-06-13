@@ -81,6 +81,28 @@ async function getArrivalTime(req, res, next) {
   }
 }
 
+async function getNearbyStops(req, res, next) {
+  try {
+    const { lat, lng, radius } = req.query;
+
+    if (!lat || !lng) throw appError('MISSING_COORDINATES', 400);
+
+    const latitude = parseFloat(lat);
+    const longitude = parseFloat(lng);
+
+    if (isNaN(latitude) || isNaN(longitude)) throw appError('INVALID_COORDINATES', 400);
+    if (latitude < -90 || latitude > 90) throw appError('INVALID_COORDINATES', 400);
+    if (longitude < -180 || longitude > 180) throw appError('INVALID_COORDINATES', 400);
+
+    const stops = await stopService.getNearbyStops(latitude, longitude, radius);
+    res.status(200).json({ ok: true, stops });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+
 module.exports = {
   getAllStop,
   getStop,
@@ -90,5 +112,6 @@ module.exports = {
   getStopsByRoute,
   addStopToRoute,
   removeStopFromRoute,
-  getArrivalTime
+  getArrivalTime,
+  getNearbyStops
 };

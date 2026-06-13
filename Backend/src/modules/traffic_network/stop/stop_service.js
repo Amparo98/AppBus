@@ -93,6 +93,17 @@ async function getArrivalTime(id_stop, route_id) {
   };
 }
 
+const MAX_RADIUS = 2000;  // 2km máximo
+const DEFAULT_RADIUS = 1000; // 1km por defecto
+
+async function getNearbyStops(latitude, longitude, radius) {
+  const radiusNum = radius ? Math.min(Number(radius), MAX_RADIUS) : DEFAULT_RADIUS;
+
+  if (isNaN(radiusNum) || radiusNum <= 0) throw appError('INVALID_RADIUS', 400);
+
+  return await stopRepository.getNearbyStops(latitude, longitude, radiusNum);
+}
+
 module.exports = {
   getAllStops,
   getStop,
@@ -102,5 +113,6 @@ module.exports = {
   getStopsByRoute,
   addStopToRoute,
   removeStopFromRoute,
-  getArrivalTime
+  getArrivalTime,
+  getNearbyStops
 };

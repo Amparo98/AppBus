@@ -137,6 +137,27 @@ async function getBusPositionByRoute(route_id, latitude, longitude) {
   return rows[0] || null;
 }
 
+async function getNearbyStops(latitude, longitude, radius) {
+  const { rows } = await pool.query(
+    `SELECT s.id_stop, s.name_stop, s.address_stop,
+            ST_Y(s.locations::geometry) AS latitude,
+            ST_X(s.locations::geometry) AS longitude,
+            ST_Distance(
+              s.locations::geography,
+              ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography
+            ) AS distance_meters
+     FROM stops s
+     WHERE ST_DWithin(
+       s.locations::geography,
+       ST_SetSRID(ST_MakePoint($2, $1), 4326)::geography,
+       $3
+     )
+     ORDER BY distance_meters ASC`,
+    [latitude, longitude, radius]
+  );
+  return rows;
+}
+
 module.exports = {
   getAllStops,
   getStopById,
@@ -146,5 +167,6 @@ module.exports = {
   getStopsByRoute,
   addStopToRoute,
   removeStopFromRoute,
-  getBusPositionByRoute
+  getBusPositionByRoute,
+  getNearbyStops
 };
