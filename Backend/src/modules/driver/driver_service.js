@@ -8,10 +8,11 @@ const appError = require('../../utils/appError.js');
 const i18next = require('../../config/i18n.js');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: process.env.MAILTRAP_HOST,
+  port: Number(process.env.MAILTRAP_PORT),
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASS
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS
   }
 });
 
