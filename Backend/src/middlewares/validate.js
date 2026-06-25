@@ -22,7 +22,7 @@ function validate(schema) {
       return next(error);
     }
 
-    req.body = result.data;
+    req.params = result.data;
     next();
   };
 }

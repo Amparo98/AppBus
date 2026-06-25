@@ -91,11 +91,28 @@ async function registerCompany(req, res, next) {
   }
 }
 
+async function requestAccessCompany(req, res, next) {
+  try {
+    const result = await authService.requestAccessCompany(req.body);
+    return res.status(201).json({ ok: true, message: 'Solicitud enviada, pendiente de aprobación', company: result });
+  } catch (error) { next(error); }
+}
+
+async function activateCompanyAccount(req, res, next) {
+  try {
+    const { token, password } = req.body;
+    const result = await authService.activateCompanyAccount(token, password);
+    return res.status(200).json({ ok: true, message: 'Cuenta activada correctamente', company: result });
+  } catch (error) { next(error); }
+}
+
 module.exports = {
   loginClient,
   loginCompany,
   loginDriver,
   me,
   registerClient,
-  registerCompany
+  registerCompany,
+  requestAccessCompany,
+  activateCompanyAccount
 };

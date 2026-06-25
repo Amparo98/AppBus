@@ -3,7 +3,7 @@ const rateLimit = require('express-rate-limit');
 const authController = require('./auth_controller.js');
 const authMiddleware = require('../../middlewares/auth.js');
 const validate = require('../../middlewares/validate.js');
-const { loginRules, registerClientRules, registerCompanyRules } = require('./auth_rules.js');
+const { loginRules, registerClientRules, registerCompanyRules, requestAccessCompanyRules, activateCompanyRules } = require('./auth_rules.js');
 
 const i18next = require('../../config/i18n.js');
 
@@ -37,6 +37,9 @@ router.get('/me', authMiddleware, authController.me);
 
 // Rutas de registro
 router.post('/client/register', validate(registerClientRules), authController.registerClient);
-router.post('/company/register', validate(registerCompanyRules), authController.registerCompany);
+
+//register company is now handled by admin routes, so we don't need this route anymore
+router.post('/company/request-access', validate(requestAccessCompanyRules), authController.requestAccessCompany);
+router.post('/company/activate',       validate(activateCompanyRules), authController.activateCompanyAccount);
 
 module.exports = router;

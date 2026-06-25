@@ -39,31 +39,27 @@ async function loginClient(email, password) {
 }
 
 async function loginCompany(email, password) {
-
   const emailNormalized = email.trim().toLowerCase();
   const company = await authRepository.getCompanyByEmail(emailNormalized);
 
   if (!company) throw appError('INVALID_CREDENTIALS', 401);
+  if (company.status === 'pending')  throw appError('ACCOUNT_PENDING_APPROVAL', 403);
+  if (company.status === 'rejected') throw appError('ACCOUNT_REJECTED', 403);
+  if (company.status === 'approved') throw appError('ACCOUNT_NOT_ACTIVATED', 403); // aprobada, sin password aún
 
   const isValidPassword = await bcrypt.compare(password, company.password_hash);
-
   if (!isValidPassword) throw appError('INVALID_CREDENTIALS', 401);
 
-  const token = generateToken({
-    id: company.id_company,
-    role: 'Company'
-  });
-
+  const token = generateToken({ id: company.id_company, role: 'Company' });
   return {
     token,
-    user: {
-      id: company.id_company,
-      name_company: company.name_company,
-      email: company.email,
-      role: 'Company'
-    }
+    user: { 
+      id: company.id_company, 
+      name_company: company.name_company, 
+      email: company.email, role: 'Company' }
   };
 }
+
 
 async function loginDriver(email, password) {
   const emailNormalized = email.trim().toLowerCase();
@@ -142,10 +138,36 @@ async function registerCompany(data) {
   );
 }
 
+async function requestAccessCompany(data) {
+  const { name, email } = data;
+  if (!name || !email) throw appError('REQUIRED_FIELDS', 400);
+
+  const nameCompany = name.trim();
+  const emailNormalized = email.trim().toLowerCase();
+
+  const exists = await authRepository.existsCompanyByEmail(emailNormalized);
+  if (exists) throw appError('EMAIL_ALREADY_EXISTS', 409);
+
+  return await authRepository.createCompany(nameCompany, emailNormalized);
+}
+
+async function activateCompanyAccount(token, password) {
+  const company = await authRepository.getCompanyByToken(token);
+  if (!company) throw appError('INVALID_TOKEN', 400);
+  if (company.status === 'active') throw appError('ALREADY_ACTIVATED', 409);
+
+  const password_hash = await bcrypt.hash(password, 10);
+  const activated = await authRepository.activateCompany(company.id_company, password_hash);
+  if (!activated) throw appError('INVALID_TOKEN', 400); // por si el status no era 'approved'
+  return activated;
+}
+
 module.exports = {
   loginClient,
   loginCompany,
   loginDriver, 
   registerClient,
-  registerCompany
+  registerCompany,
+  requestAccessCompany,
+  activateCompanyAccount
 };
