@@ -70,8 +70,20 @@ async function approveCompany(id_company, lang = 'es') {
 }
 
 async function rejectCompany(id_company) {
-  const company = await adminRepository.rejectCompany(id_company);
-  if (!company) throw appError('COMPANY_NOT_FOUND', 404);
+ const lang = getLang(req);
+  const company = await adminRepository.rejectCompany(req.params.id_company, lang);
+    if (!company) throw appError('COMPANY_NOT_FOUND', 404);
+
+    await transporter.sendMail({
+      from: `TuApp <${process.env.MAILTRAP_USER}>`,
+      to: company.email,
+      subject: i18next.t('company.rejectedSubject', { lng: lang }),
+      html: `
+        <h2>${i18next.t('company.rejectedTitle', { lng: lang, name: company.name_company })}</h2>
+        <p>${i18next.t('company.rejectedMessage', { lng: lang })}</p>
+      `
+    });
+
   return company;
 }
 

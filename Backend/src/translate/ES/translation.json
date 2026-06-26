@@ -45,7 +45,10 @@
     "welcomeMessage": "¡Bienvenido, {{name}}!",
     "requestApproved": "Tu solicitud de acceso a la plataforma ha sido aprobada.",
     "activateAccountButton": "Activar cuenta",
-    "linkExpires": "Este enlace expirará en 24 horas."
+    "linkExpires": "Este enlace expirará en 24 horas.",
+    "rejectedSubject": "Tu solicitud de acceso ha sido revisada",
+    "rejectedTitle": "Hola, {{name}}",
+    "rejectedMessage": "Lamentamos informarte de que tu solicitud de acceso a la plataforma no ha sido aprobada."
   },
 
   "admin": {
