@@ -1,0 +1,54 @@
+const adminService = require('./admin_service.js');
+const i18next = require('../../config/i18n.js');
+
+//Opcional, esto se utiliza para el cambio de idiomas segun el header que estemos utilizando 
+function getLang(req) {
+  return req.headers['accept-language'] || 'es';
+}
+
+async function loginAdmin(req, res, next) {
+  try {
+    const { email, password } = req.body;
+    const result = await adminService.loginAdmin(email, password);
+    return res.status(200).json({ 
+        ok: true, 
+        ...result 
+    });
+  } catch (error) { next(error); }
+}
+
+async function getPendingCompanies(req, res, next) {
+  try {
+    const companies = await adminService.getPendingCompanies();
+    return res.status(200).json({ 
+        ok: true, 
+        companies 
+    });
+  } catch (error) { next(error); }
+}
+
+async function approveCompany(req, res, next) {
+  try {
+    const lang = getLang(req);
+    const company = await adminService.approveCompany(req.params.id_company);
+    return res.status(200).json({ 
+        ok: true, 
+        message: i18next.t('admin.company_approved' ,{ lng: lang }),
+        company 
+    });
+  } catch (error) { next(error); }
+}
+
+async function rejectCompany(req, res, next) {
+  try {
+    const lang = getLang(req);
+    const company = await adminService.rejectCompany(req.params.id_company);
+    return res.status(200).json({ 
+        ok: true, 
+        message: i18next.t('admin.company_rejected' ,{ lng: lang }), 
+        company 
+    });
+  } catch (error) { next(error); }
+}
+
+module.exports = { loginAdmin, getPendingCompanies, approveCompany, rejectCompany };

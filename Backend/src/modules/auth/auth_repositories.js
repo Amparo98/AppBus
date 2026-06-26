@@ -13,7 +13,7 @@ async function getClientByEmail(email) {
 
 async function getCompanyByEmail(email) {
   const query = `
-    SELECT id_company, name_company, email, password_hash 
+    SELECT id_company, name_company, email, password_hash, status
     FROM company
     WHERE email = $1
     LIMIT 1
@@ -47,15 +47,36 @@ async function createClient(fullName, firstSurname, secondSurname, email, passwo
   return rows[0];
 }
 
-async function createCompany(nameCompany, email, passwordHash) {
-    const query = `
-        INSERT INTO company (name_company, email, password_hash)
-        VALUES ($1, $2, $3)
-        RETURNING id_company, name_company, email
-    `;
-    const values = [nameCompany, email, passwordHash];
-    const { rows } = await pool.query(query, values);    
-    return rows[0];
+async function createCompany(nameCompany, email) {
+  const query = `
+    INSERT INTO company (name_company, email, status)
+    VALUES ($1, $2, 'pending')
+    RETURNING id_company, name_company, email, status
+  `;
+  const { rows } = await pool.query(query, [nameCompany, email]);
+  return rows[0];
+}
+
+async function getCompanyByToken(token) {
+  const query = `
+    SELECT id_company, name_company, email, status
+    FROM company
+    WHERE activation_token = $1
+    LIMIT 1
+  `;
+  const { rows } = await pool.query(query, [token]);
+  return rows[0] || null;
+}
+
+async function activateCompany(id_company, password_hash) {
+  const query = `
+    UPDATE company
+    SET password_hash = $1, status = 'active', activation_token = NULL
+    WHERE id_company = $2 AND status = 'approved'
+    RETURNING id_company, name_company, email, status
+  `;
+  const { rows } = await pool.query(query, [password_hash, id_company]);
+  return rows[0] || null;
 }
 
 
@@ -85,6 +106,8 @@ module.exports = {
   getDriverByEmail,
   createClient,
   createCompany,
+  getCompanyByToken,
+  activateCompany,
   existsClientByEmail,
   existsCompanyByEmail
 };

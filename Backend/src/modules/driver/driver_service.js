@@ -8,10 +8,11 @@ const appError = require('../../utils/appError.js');
 const i18next = require('../../config/i18n.js');
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: process.env.MAILTRAP_HOST,
+  port: Number(process.env.MAILTRAP_PORT),
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASS
+    user: process.env.MAILTRAP_USER,
+    pass: process.env.MAILTRAP_PASS
   }
 });
 
@@ -52,7 +53,7 @@ async function addDriver(company_id, data, lang = 'es') {
   const driver = await driverRepository.addDriver(company_id, nameNormalized, firstSurname, secondSurname, personalEmail,
     companyEmail, dni, phone_number, activationToken);
 
-  const activationLink = `${process.env.FRONTEND_URL}/activate-account?token=${activationToken}`;
+  const activationLink = `${process.env.FRONTEND_URL}/activate-account?token=${activationToken}&role=driver`;
 
   await transporter.sendMail({
     from: `${companyName} <${process.env.GMAIL_USER}>`,
