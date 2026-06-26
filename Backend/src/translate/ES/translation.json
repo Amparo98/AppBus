@@ -1,18 +1,21 @@
 {
   "auth":{
-    "login_success": "Login successful",
-    "invalid_credentials": "Invalid email or password",
-    "required_credentials": "Email and password are required",
+    "login_success": "Inicio de sesión realizado con éxito",
+    "invalid_credentials": "Correo electrónico o contraseña incorrectos",
+    "required_credentials": "Es necesario introducir el correo electrónico y la contraseña",
   
-    "client_created": "Client created successfully",
-    "company_created": "Company created successfully",
-    "bus_driver_created": "Bus driver created successfully",
+    "client_created": "Se ha creado correctamente cuenta de Cliente",
+    "company_created": "Se ha creado correctamente cuenta de Empresa",
+    "bus_driver_created": "Se ha creado correctamente cuenta de Conductor",
   
-    "client_login_success": "Client login successful",
-    "company_login_success": "Company login successful",
-    "bus_driver_login_success": "Bus driver login successful",
+    "client_login_success": "Inicio de sesión del Cliente realizado con éxito",
+    "company_login_success": "Inicio de sesión de la Empresa realizado con éxito",
+    "bus_driver_login_success": "Inicio de sesión del Conductor realizado con éxito",
   
-    "too_many_attempts": "Too many login attempts, please wait 15 minutes"
+    "too_many_attempts": "Se han realizado demasiados intentos de inicio de sesión. Por favor, espera 15 minutos.",
+
+    "request_sent": "Solicitud de acceso enviada correctamente, recibirás un email cuando sea revisada",
+    "account_activated": "Cuenta de empresa activada correctamente"
   },
 
   "bus":{
@@ -37,6 +40,19 @@
     "linkExpires": "Este enlace expirará en 24 horas."
   },
   
+  "company": {
+    "activateAccountSubject": "Tu solicitud de acceso ha sido aprobada",
+    "welcomeMessage": "¡Bienvenido, {{name}}!",
+    "requestApproved": "Tu solicitud de acceso a la plataforma ha sido aprobada.",
+    "activateAccountButton": "Activar cuenta",
+    "linkExpires": "Este enlace expirará en 24 horas."
+  },
+
+  "admin": {
+    "company_approved": "Empresa aprobada correctamente",
+    "company_rejected": "Empresa rechazada correctamente"
+  },
+
   "line": {
     "created_successfully": "Línea creada correctamente",
     "updated_successfully": "Línea actualizada correctamente",
@@ -83,13 +99,16 @@
       "at_least_one_field": "Debes enviar al menos un campo para actualizar"
     },
     "token": {
-      "required": "La matrícula debe tener 4 números y 3 letras"
+      "required": "El token de activación es obligatorio"
     },
     "bus": {
       "id_invalid": "El identificador del bus no es válido"
     },
     "route": {
       "id_invalid": "El identificador del trayecto no es válido"
+    },
+    "company": {
+      "id_invalid": "El identificador de la empresa no es válido"
     },
     "incident": {
       "type_invalid": "El tipo de incidencia no es válido",
@@ -129,7 +148,10 @@
     "SERVICE_ALREADY_EXISTS":"El conductor ya tiene un servicio asignado en ese turno y fecha",
     "INVALED_SHIFT": "El turno debe ser de mañana, tarde o noche",
     "INVALED_STATUS": "Estado inválido. Los valores permitidos son: ${validStates.join(', ')}",
-    "ALERT_NOT_FOUND": "Aviso no encontrado"
+    "ALERT_NOT_FOUND": "Aviso no encontrado",
+    "ACCOUNT_PENDING_APPROVAL": "Tu solicitud está pendiente de aprobación, te avisaremos por email",
+    "ACCOUNT_REJECTED": "Tu solicitud de acceso ha sido rechazada",
+    "COMPANY_NOT_FOUND": "Empresa no encontrada"
   }
 
 }

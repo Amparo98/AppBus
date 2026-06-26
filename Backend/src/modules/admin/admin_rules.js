@@ -11,7 +11,7 @@ password: z.string().min(6)
 }).strict();
 
 const idCompanyParamRules = z.object({
-  id_company: z.string().uuid('ID validated as UUID')
+  id_company: z.string().uuid('validation.company.id_invalid')
 });
 
 

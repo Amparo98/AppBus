@@ -7,10 +7,19 @@ const adminRepository = require('./admin_repositories.js');
 const appError = require('../../utils/appError.js');
 const i18next = require('../../config/i18n.js');
 
+function generateToken(payload) {
+  return jwt.sign(payload, env.jwt.secret, {
+    expiresIn: env.jwt.expiresIn
+  });
+}
+
+
 const transporter = nodemailer.createTransport({
   host: process.env.MAILTRAP_HOST,
   port: Number(process.env.MAILTRAP_PORT),
-  auth: { user: process.env.MAILTRAP_USER, pass: process.env.MAILTRAP_PASS }
+  auth: { 
+    user: process.env.MAILTRAP_USER, 
+    pass: process.env.MAILTRAP_PASS }
 });
 
 function generateToken(payload) {
@@ -34,23 +43,28 @@ async function getPendingCompanies() {
 }
 
 async function approveCompany(id_company, lang = 'es') {
+  const lang = getLang(req);
   const activationToken = crypto.randomBytes(32).toString('hex');
   const company = await adminRepository.approveCompany(id_company, activationToken);
   if (!company) throw appError('COMPANY_NOT_FOUND', 404);
 
-  const activationLink = `${process.env.FRONTEND_URL}/activate-account?token=${activationToken}`;
-
-  await transporter.sendMail({
-    from: `TuApp <${process.env.MAILTRAP_USER}>`,
-    to: company.email,
-    subject: i18next.t('company.activateAccountSubject', { lng: lang }),
-    html: `
-      <h2>${i18next.t('company.welcomeMessage', { lng: lang, name: company.name_company })}</h2>
-      <p>${i18next.t('company.requestApproved', { lng: lang })}</p>
-      <a href="${activationLink}">${i18next.t('company.activateAccountButton', { lng: lang })}</a>
-      <p>${i18next.t('company.linkExpires', { lng: lang })}</p>
-    `
-  });
+  const activationLink = `${process.env.FRONTEND_URL}/activate-account?token=${activationToken}&role=company`;
+  try {
+    await transporter.sendMail({
+      from: `TuApp <${process.env.MAILTRAP_USER}>`,
+      to: company.email,
+      subject: i18next.t('company.activateAccountSubject', { lng: lang }),
+      html: `
+        <h2>${i18next.t('company.welcomeMessage', { lng: lang, name: company.name_company })}</h2>
+        <p>${i18next.t('company.requestApproved', { lng: lang })}</p>
+        <a href="${activationLink}">${i18next.t('company.activateAccountButton', { lng: lang })}</a>
+        <p>${i18next.t('company.linkExpires', { lng: lang })}</p>
+      `
+    });
+  } catch (error) {
+    console.error('Error sending activation email:', error);
+    throw appError('EMAIL_SENDING_FAILED', 500);
+  }
 
   return company;
 }

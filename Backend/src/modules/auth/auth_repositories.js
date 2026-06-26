@@ -13,7 +13,7 @@ async function getClientByEmail(email) {
 
 async function getCompanyByEmail(email) {
   const query = `
-    SELECT id_company, name_company, email, password_hash 
+    SELECT id_company, name_company, email, password_hash, status
     FROM company
     WHERE email = $1
     LIMIT 1

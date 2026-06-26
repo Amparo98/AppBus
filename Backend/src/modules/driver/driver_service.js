@@ -53,7 +53,7 @@ async function addDriver(company_id, data, lang = 'es') {
   const driver = await driverRepository.addDriver(company_id, nameNormalized, firstSurname, secondSurname, personalEmail,
     companyEmail, dni, phone_number, activationToken);
 
-  const activationLink = `${process.env.FRONTEND_URL}/activate-account?token=${activationToken}`;
+  const activationLink = `${process.env.FRONTEND_URL}/activate-account?token=${activationToken}&role=driver`;
 
   await transporter.sendMail({
     from: `${companyName} <${process.env.GMAIL_USER}>`,

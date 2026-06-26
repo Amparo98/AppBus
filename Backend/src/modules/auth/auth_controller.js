@@ -93,16 +93,26 @@ async function registerCompany(req, res, next) {
 
 async function requestAccessCompany(req, res, next) {
   try {
+    const lang = getLang(req);
     const result = await authService.requestAccessCompany(req.body);
-    return res.status(201).json({ ok: true, message: 'Solicitud enviada, pendiente de aprobación', company: result });
+    return res.status(201).json({ 
+      ok: true, 
+      message: i18next.t('auth.request_sent' ,{ lng: lang }), 
+      company: result 
+    });
   } catch (error) { next(error); }
 }
 
 async function activateCompanyAccount(req, res, next) {
   try {
+    const lang = getLang(req);
     const { token, password } = req.body;
     const result = await authService.activateCompanyAccount(token, password);
-    return res.status(200).json({ ok: true, message: 'Cuenta activada correctamente', company: result });
+    return res.status(200).json({ 
+      ok: true, 
+      message: i18next.t('auth.account_activated', { lng: lang }),
+      company: result 
+    });
   } catch (error) { next(error); }
 }
 

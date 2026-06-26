@@ -3,7 +3,7 @@ const rateLimit = require('express-rate-limit');
 const authController = require('./auth_controller.js');
 const authMiddleware = require('../../middlewares/auth.js');
 const validate = require('../../middlewares/validate.js');
-const { loginRules, registerClientRules, registerCompanyRules, requestAccessCompanyRules, activateCompanyRules } = require('./auth_rules.js');
+const { loginRules, registerClientRules, requestAccessCompanyRules, activateCompanyRules } = require('./auth_rules.js');
 
 const i18next = require('../../config/i18n.js');
 
@@ -38,8 +38,9 @@ router.get('/me', authMiddleware, authController.me);
 // Rutas de registro
 router.post('/client/register', validate(registerClientRules), authController.registerClient);
 
-//register company is now handled by admin routes, so we don't need this route anymore
-router.post('/company/request-access', validate(requestAccessCompanyRules), authController.requestAccessCompany);
-router.post('/company/activate',       validate(activateCompanyRules), authController.activateCompanyAccount);
+// Solicitud de acceso de empresa (público) y activación de cuenta tras aprobación del admin
+router.post('/company/request-access', loginLimiter, validate(requestAccessCompanyRules), authController.requestAccessCompany);
+router.post('/company/activate',       loginLimiter, validate(activateCompanyRules), authController.activateCompanyAccount);
+
 
 module.exports = router;

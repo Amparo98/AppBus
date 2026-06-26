@@ -117,27 +117,6 @@ async function registerClient(data) {
   );
 }
 
-async function registerCompany(data) {
-  const { name, email, password } = data;
-
-  if (!name || !email || !password) throw appError('REQUIRED_FIELDS', 400);
-
-  const nameCompany = name.trim();
-  const emailNormalized = email.trim().toLowerCase();
-
-  const exists = await authRepository.existsCompanyByEmail(emailNormalized);
-
-  if (exists) throw appError('EMAIL_ALREADY_EXISTS', 409);
-
-  const passwordHash = await bcrypt.hash(password, 10);
-
-  return await authRepository.createCompany(
-    nameCompany,
-    emailNormalized,
-    passwordHash
-  );
-}
-
 async function requestAccessCompany(data) {
   const { name, email } = data;
   if (!name || !email) throw appError('REQUIRED_FIELDS', 400);
@@ -167,7 +146,6 @@ module.exports = {
   loginCompany,
   loginDriver, 
   registerClient,
-  registerCompany,
   requestAccessCompany,
   activateCompanyAccount
 };
