@@ -53,10 +53,13 @@ async function loginCompany(email, password) {
   const token = generateToken({ id: company.id_company, role: 'Company' });
   return {
     token,
-    user: { 
-      id: company.id_company, 
-      name_company: company.name_company, 
-      email: company.email, role: 'Company' }
+    user: {
+      id: company.id_company,
+      name_company: company.name_company,
+      email: company.email,
+      logo_url: company.logo_url,
+      role: 'Company'
+    }
   };
 }
 
@@ -117,7 +120,7 @@ async function registerClient(data) {
   );
 }
 
-async function requestAccessCompany(data) {
+async function requestAccessCompany(data, logoUrl = null) {
   const { name, email } = data;
   if (!name || !email) throw appError('REQUIRED_FIELDS', 400);
 
@@ -127,7 +130,7 @@ async function requestAccessCompany(data) {
   const exists = await authRepository.existsCompanyByEmail(emailNormalized);
   if (exists) throw appError('EMAIL_ALREADY_EXISTS', 409);
 
-  return await authRepository.createCompany(nameCompany, emailNormalized);
+  return await authRepository.createCompany(nameCompany, emailNormalized, logoUrl);
 }
 
 async function activateCompanyAccount(token, password) {

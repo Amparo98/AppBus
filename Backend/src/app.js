@@ -3,6 +3,9 @@ const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
+//para los logos de las empresas
+const path = require('path');
+
 const authRoutes = require('./modules/auth/auth_routes.js');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
@@ -44,6 +47,9 @@ app.use((req, res) => {
 });
 
 app.use(errorMiddleware);
+
+// Servir archivos estáticos desde la carpeta 'public/uploads'
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 module.exports = app;
 

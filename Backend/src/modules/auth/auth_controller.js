@@ -94,11 +94,12 @@ async function registerCompany(req, res, next) {
 async function requestAccessCompany(req, res, next) {
   try {
     const lang = getLang(req);
-    const result = await authService.requestAccessCompany(req.body);
-    return res.status(201).json({ 
-      ok: true, 
-      message: i18next.t('auth.request_sent' ,{ lng: lang }), 
-      company: result 
+    const logoUrl = req.file ? `/uploads/logos/${req.file.filename}` : null;
+    const result = await authService.requestAccessCompany(req.body, logoUrl);
+    return res.status(201).json({
+      ok: true,
+      message: i18next.t('auth.request_sent', { lng: lang }),
+      company: result
     });
   } catch (error) { next(error); }
 }

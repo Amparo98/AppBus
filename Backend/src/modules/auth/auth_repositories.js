@@ -13,7 +13,7 @@ async function getClientByEmail(email) {
 
 async function getCompanyByEmail(email) {
   const query = `
-    SELECT id_company, name_company, email, password_hash, status
+    SELECT id_company, name_company, email, password_hash, status, logo_url
     FROM company
     WHERE email = $1
     LIMIT 1
@@ -47,13 +47,13 @@ async function createClient(fullName, firstSurname, secondSurname, email, passwo
   return rows[0];
 }
 
-async function createCompany(nameCompany, email) {
+async function createCompany(nameCompany, email, logoUrl) {
   const query = `
-    INSERT INTO company (name_company, email, status)
-    VALUES ($1, $2, 'pending')
-    RETURNING id_company, name_company, email, status
+    INSERT INTO company (name_company, email, status, logo_url)
+    VALUES ($1, $2, 'pending', $3)
+    RETURNING id_company, name_company, email, status, logo_url
   `;
-  const { rows } = await pool.query(query, [nameCompany, email]);
+  const { rows } = await pool.query(query, [nameCompany, email, logoUrl]);
   return rows[0];
 }
 
