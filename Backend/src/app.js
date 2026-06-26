@@ -10,12 +10,18 @@ const authRoutes = require('./modules/auth/auth_routes.js');
 const errorMiddleware = require('./middlewares/error');
 const healthRouter = require('./routes/health.js');
 const lineRoutes = require('./modules/line/line_routes.js');
-const routeRoutes = require('./modules/traffic_network/route_routes.js');
+const routeRoutes = require('./modules/traffic_network/route/route_routes.js');
 const driverRoutes = require('./modules/driver/driver_routes.js');
 const busRoutes = require('./modules/bus/bus_routes.js');
 const serviceRoutes = require('./modules/services/assign_service_routes.js');
 const incidentRoutes = require('./modules/incident/incident_routes.js');
 const alertServicioRoutes = require('./modules/alert/alert_routes.js');
+const stopRoutes = require('./modules/traffic_network/stop/stop_routes.js');
+const shiftRoutes = require ('./modules/driver/shift_log/shift_log_routes.js');
+const positionRoutes = require ('./modules/traffic_network/position/position_routes.js');
+const timeTableRoute = require ('./modules/traffic_network/timetable/timetable_routes.js');
+const favoriteRoute = require ('./modules/favorite/favorite_routes.js')
+const profileClientRoute = require ('./modules/client/client_routes.js')
 
 const app = express();
 
@@ -38,6 +44,12 @@ app.use('/api/bus', busRoutes); //corregido
 app.use('/api/service', serviceRoutes);
 app.use('/api/incident', incidentRoutes);
 app.use('/api/alert', alertServicioRoutes);
+app.use('/api/stop', stopRoutes);
+app.use('/api/shift', shiftRoutes);
+app.use('/api/position', positionRoutes);
+app.use('/api/timetable', timeTableRoute);
+app.use ('/api/favorite', favoriteRoute);
+app.use ('/api/profileClient', profileClientRoute);
 
 app.use((req, res) => {
   res.status(404).json({

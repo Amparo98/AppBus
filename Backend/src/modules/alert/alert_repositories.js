@@ -71,10 +71,28 @@ async function deleteAlert(id_alert, company_id) {
   return rows[0] || null;
 }
 
+async function getActiveAlerts() {
+  const { rows } = await pool.query(
+    `SELECT a.id_alert, a.route_id, a.alert_type, a.title,
+            a.descriptions, a.starts_date, a.end_date, a.is_active, a.created_at,
+            r.origin, r.destination,
+            l.name_line, l.code, l.color
+     FROM service_alert a
+     JOIN routes r ON r.id_route = a.route_id
+     JOIN line l ON l.id_line = r.line_id
+     WHERE a.is_active = true
+     AND a.starts_date <= NOW()
+     AND (a.end_date IS NULL OR a.end_date >= NOW())
+     ORDER BY a.created_at DESC`
+  );
+  return rows;
+}
+
 module.exports = { 
   getAlertByCompany,
   getAlertById,
   addAlert,
   updateAlert,
-  deleteAlert
+  deleteAlert,
+  getActiveAlerts
 };
