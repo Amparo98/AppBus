@@ -1,6 +1,6 @@
 const routeRepository = require('./route_repositories.js');
-const lineRepository = require('../line/line_repositories.js');
-const appError = require('../../utils/appError.js');
+const lineRepository = require('../../line/line_repositories.js');
+const appError = require('../../../utils/appError.js');
 
 async function checkLine(code, company_id) {
   const line = await lineRepository.getLineById(code, company_id);

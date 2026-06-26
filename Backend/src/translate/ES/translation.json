@@ -76,6 +76,11 @@
     "finished_successfully": "Servicio finalizado correctamente"
   },
 
+  "shift_log":{
+    "started": "Jornada iniciada correctamente",
+    "ended": "Jornada finalizada correctamente"
+},
+
   "validation": {
     "email": {
       "invalid": "Email inválido"
@@ -155,6 +160,12 @@
     "ACCOUNT_PENDING_APPROVAL": "Tu solicitud está pendiente de aprobación, te avisaremos por email",
     "ACCOUNT_REJECTED": "Tu solicitud de acceso ha sido rechazada",
     "COMPANY_NOT_FOUND": "Empresa no encontrada"
+    "STOP_NOT_FOUND": "Parada no encontrada",
+    "SHIFT_LOG_NOT_FOUND": "Fichaje no encontrada",
+    "SHIFT_ALREADY_STARTED": "El conductor ha iniciado el fichado",
+    "SHIFT_NOT_STARTED": "El conductor no ha iniciado el fichado",
+    "POSITION_NOT_FOUND": "Posicion indefinida",
+    "TIME_TABLE_NOT_FOUND": "Horario no encontrado"
   }
 
 }
