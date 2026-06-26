@@ -159,7 +159,7 @@
     "ALERT_NOT_FOUND": "Aviso no encontrado",
     "ACCOUNT_PENDING_APPROVAL": "Tu solicitud está pendiente de aprobación, te avisaremos por email",
     "ACCOUNT_REJECTED": "Tu solicitud de acceso ha sido rechazada",
-    "COMPANY_NOT_FOUND": "Empresa no encontrada"
+    "COMPANY_NOT_FOUND": "Empresa no encontrada",
     "STOP_NOT_FOUND": "Parada no encontrada",
     "SHIFT_LOG_NOT_FOUND": "Fichaje no encontrada",
     "SHIFT_ALREADY_STARTED": "El conductor ha iniciado el fichado",
