@@ -17,10 +17,14 @@ const registerClientRules = z.object({
   password: z.string().min(6, 'validation.password.min')
 }).strict();
 
-const registerCompanyRules = z.object({
-  name: z.string().trim().min(2, 'validation.name.min'),
-  email: z.string().email('validation.email.invalid'),
-  password: z.string().min(6, 'validation.password.min')
+const requestAccessCompanyRules = z.object({
+  name: z.string().trim().min(2),
+  email: z.string().email()
 }).strict();
 
-module.exports = { loginRules, registerClientRules, registerCompanyRules };
+const activateCompanyRules = z.object({
+  token: z.string().min(1),
+  password: z.string().min(6)
+}).strict();
+
+module.exports = { loginRules, registerClientRules, requestAccessCompanyRules, activateCompanyRules };
