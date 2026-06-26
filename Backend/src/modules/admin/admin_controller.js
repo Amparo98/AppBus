@@ -29,6 +29,7 @@ async function getPendingCompanies(req, res, next) {
 
 async function approveCompany(req, res, next) {
   try {
+    const lang = getLang(req);
     const company = await adminService.approveCompany(req.params.id_company);
     return res.status(200).json({ 
         ok: true, 
@@ -40,6 +41,7 @@ async function approveCompany(req, res, next) {
 
 async function rejectCompany(req, res, next) {
   try {
+    const lang = getLang(req);
     const company = await adminService.rejectCompany(req.params.id_company);
     return res.status(200).json({ 
         ok: true, 

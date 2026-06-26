@@ -1,8 +1,8 @@
 const i18next = require('../config/i18n.js');
 
-function validate(schema) {
+function validateParams(schema) {
   return (req, res, next) => {
-    const result = schema.safeParse(req.body);
+    const result = schema.safeParse(req.params);
 
     if (!result.success) {
       const lang = req.headers['accept-language'] || 'es';
@@ -13,18 +13,15 @@ function validate(schema) {
 
       error.details = result.error.issues.map(e => ({
         field: e.path[0],
-        message: i18next.t(e.message, {
-          lng: lang,
-          min: e.minimum
-        })
+        message: i18next.t(e.message, { lng: lang })
       }));
 
       return next(error);
     }
 
-    req.body = result.data;
+    req.params = result.data;
     next();
   };
 }
 
-module.exports = validate;
+module.exports = validateParams;
